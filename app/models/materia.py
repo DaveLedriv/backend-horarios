@@ -13,3 +13,4 @@ class Materia(Base):
 
     plan_estudio_id = Column(Integer, ForeignKey("planes_estudio.id"), nullable=False)
     plan_estudio = relationship("PlanEstudio", back_populates="materias")
+    asignaciones = relationship("AsignacionMateria", back_populates="materia", cascade="all, delete")
