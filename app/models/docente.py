@@ -1,0 +1,14 @@
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+from app.core.database import Base
+
+class Docente(Base):
+    __tablename__ = "docentes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    nombre = Column(String(100), nullable=False)
+    correo = Column(String(100), nullable=False, unique=True)
+    numero_empleado = Column(String(20), nullable=False, unique=True)
+
+    facultad_id = Column(Integer, ForeignKey("facultades.id"), nullable=False)
+    facultad = relationship("Facultad", back_populates="docentes")
