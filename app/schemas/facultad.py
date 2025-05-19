@@ -15,7 +15,7 @@ class FacultadResponse(FacultadBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class FacultadWithPlanes(BaseModel):
     id: int
@@ -23,7 +23,7 @@ class FacultadWithPlanes(BaseModel):
     planes: List[PlanEstudioResponse] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class FacultadWithDocentes(BaseModel):
     id: int
@@ -31,7 +31,7 @@ class FacultadWithDocentes(BaseModel):
     docentes: List[DocenteResponse] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 

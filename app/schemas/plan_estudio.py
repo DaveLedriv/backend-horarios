@@ -14,7 +14,7 @@ class PlanEstudioResponse(PlanEstudioBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class PlanEstudioWithMaterias(BaseModel):
     id: int
@@ -23,7 +23,7 @@ class PlanEstudioWithMaterias(BaseModel):
     materias: List[MateriaResponse] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class PlanEstudioUpdate(BaseModel):
     nombre: Optional[str] = None

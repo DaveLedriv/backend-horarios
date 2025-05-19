@@ -3,6 +3,8 @@ from app.routers import facultad, plan_estudio
 from app.routers import materia
 from app.routers import docente
 from app.routers import asignacion_materia
+from app.routers import clase_programada
+from app.routers import horarios
 
 from app.core.config import settings
 from app.core.database import engine, Base
@@ -15,6 +17,8 @@ def create_app():
     app.include_router(materia.router)
     app.include_router(docente.router)
     app.include_router(asignacion_materia.router)
+    app.include_router(clase_programada.router)
+    app.include_router(horarios.router)
 
     return app
 

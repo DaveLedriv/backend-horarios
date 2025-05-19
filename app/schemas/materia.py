@@ -16,7 +16,7 @@ class MateriaResponse(MateriaBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class MateriaUpdate(BaseModel):
     nombre: Optional[str] = None

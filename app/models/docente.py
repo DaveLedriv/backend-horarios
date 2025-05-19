@@ -13,4 +13,5 @@ class Docente(Base):
     facultad_id = Column(Integer, ForeignKey("facultades.id"), nullable=False)
     facultad = relationship("Facultad", back_populates="docentes")
     asignaciones = relationship("AsignacionMateria", back_populates="docente", cascade="all, delete")
+    clases = relationship("ClaseProgramada", back_populates="docente")
 

@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+from sqlalchemy import Boolean
+
 
 class Materia(Base):
     __tablename__ = "materias"
@@ -14,3 +16,5 @@ class Materia(Base):
     plan_estudio_id = Column(Integer, ForeignKey("planes_estudio.id"), nullable=False)
     plan_estudio = relationship("PlanEstudio", back_populates="materias")
     asignaciones = relationship("AsignacionMateria", back_populates="materia", cascade="all, delete")
+    clases = relationship("ClaseProgramada", back_populates="materia")
+    permite_superposicion = Column(Boolean, default=False)
