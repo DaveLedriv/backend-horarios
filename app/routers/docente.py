@@ -5,6 +5,11 @@ from app.core.database import SessionLocal
 from app.models.docente import Docente
 from app.schemas.docente import DocenteCreate, DocenteResponse
 from app.schemas.docente import DocenteUpdate
+from app.schemas.docente import DisponibilidadDocenteResponse, BloqueDisponible
+from app.services.disponibilidad_docente import obtener_disponibilidad_docente
+from fastapi import Query
+from datetime import time
+from app.models.clase_programada import DiaSemanaEnum
 
 
 router = APIRouter(prefix="/docentes", tags=["Docentes"])
@@ -60,3 +65,23 @@ def eliminar_docente(docente_id: int, db: Session = Depends(get_db)):
 
     db.delete(docente)
     db.commit()
+
+
+@router.get("/{docente_id}/disponibilidad", response_model=DisponibilidadDocenteResponse)
+def consultar_disponibilidad(
+    docente_id: int,
+    dia: DiaSemanaEnum = Query(None, description="Día de la semana, ej: lunes"),
+    desde: time = Query(None, description="Hora mínima de inicio, formato HH:MM"),
+    hasta: time = Query(None, description="Hora máxima de fin, formato HH:MM"),
+    db: Session = Depends(get_db)
+):
+    docente = db.query(Docente).filter(Docente.id == docente_id).first()
+    if not docente:
+        raise HTTPException(status_code=404, detail="Docente no encontrado")
+
+    bloques = obtener_disponibilidad_docente(db, docente_id, dia, desde, hasta)
+
+    return DisponibilidadDocenteResponse(
+        docente_id=docente_id,
+        disponibles=[BloqueDisponible(**b) for b in bloques]
+    )

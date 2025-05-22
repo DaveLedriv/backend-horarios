@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
+from fastapi import Query
+from datetime import time
+from app.services.aulas_disponibles import obtener_aulas_disponibles
 
 from app.schemas.clase_programada import (
     ClaseProgramadaCreate,
@@ -90,3 +93,15 @@ def eliminar_clase_programada(clase_id: int, db: Session = Depends(get_db)):
 
     db.delete(clase)
     db.commit()
+@router.get("/aulas/disponibles", response_model=List[str])
+def aulas_disponibles(
+    dia: str = Query(..., description="Día de la semana, ej. lunes"),
+    hora_inicio: time = Query(..., description="Hora inicio en formato HH:MM"),
+    hora_fin: time = Query(..., description="Hora fin en formato HH:MM"),
+    db: Session = Depends(get_db)
+):
+    if hora_inicio >= hora_fin:
+        raise HTTPException(status_code=400, detail="La hora de inicio debe ser menor que la hora de fin.")
+
+    return obtener_aulas_disponibles(db, dia, hora_inicio, hora_fin)
+

@@ -50,3 +50,12 @@ class ClaseHorario(BaseModel):
 class HorarioDocenteResponse(BaseModel):
     docente_id: int
     clases: List[ClaseHorario]
+
+class BloqueDisponible(BaseModel):
+    dia: str
+    hora_inicio: time
+    hora_fin: time
+
+class DisponibilidadDocenteResponse(BaseModel):
+    docente_id: int
+    disponibles: List[BloqueDisponible]
