@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware  # <-- IMPORTANTE
+
 from app.routers import facultad, plan_estudio
 from app.routers import materia
 from app.routers import docente
@@ -12,6 +14,15 @@ from app.core.database import engine, Base
 
 def create_app():
     app = FastAPI(title="Sistema de Horarios Universitarios")
+
+    # 👇 Agrega CORS aquí mismo
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:5173"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     app.include_router(facultad.router)
     app.include_router(plan_estudio.router)

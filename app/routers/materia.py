@@ -58,3 +58,11 @@ def eliminar_materia(materia_id: int, db: Session = Depends(get_db)):
 
     db.delete(materia)
     db.commit()
+
+@router.get("/{materia_id}", response_model=MateriaResponse)
+def obtener_materia(materia_id: int, db: Session = Depends(get_db)):
+    materia = db.query(Materia).filter(Materia.id == materia_id).first()
+    if materia is None:
+        raise HTTPException(status_code=404, detail="Materia no encontrada")
+    return materia
+
