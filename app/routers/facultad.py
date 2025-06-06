@@ -75,16 +75,12 @@ def eliminar_facultad(facultad_id: int, db: Session = Depends(get_db)):
     db.delete(facultad)
     db.commit()
 
-    @router.put("/{facultad_id}", response_model=FacultadResponse)
-    def actualizar_facultad(facultad_id: int, datos: FacultadUpdate, db: Session = Depends(get_db)):
-        facultad = db.query(Facultad).filter(Facultad.id == facultad_id).first()
-        if facultad is None:
-            raise HTTPException(status_code=404, detail="Facultad no encontrada")
 
-        for key, value in datos.dict(exclude_unset=True).items():
-            setattr(facultad, key, value)
+@router.get("/{facultad_id}", response_model=FacultadResponse)
+def obtener_facultad(facultad_id: int, db: Session = Depends(get_db)):
+    facultad = db.query(Facultad).filter(Facultad.id == facultad_id).first()
+    if facultad is None:
+        raise HTTPException(status_code=404, detail="Facultad no encontrada")
+    return facultad
 
-        db.commit()
-        db.refresh(facultad)
-        return facultad
 

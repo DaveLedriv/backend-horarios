@@ -85,3 +85,9 @@ def consultar_disponibilidad(
         docente_id=docente_id,
         disponibles=[BloqueDisponible(**b) for b in bloques]
     )
+@router.get("/{docente_id}", response_model=DocenteResponse)
+def obtener_docente(docente_id: int, db: Session = Depends(get_db)):
+    docente = db.query(Docente).filter(Docente.id == docente_id).first()
+    if not docente:
+        raise HTTPException(status_code=404, detail="Docente no encontrado")
+    return docente
