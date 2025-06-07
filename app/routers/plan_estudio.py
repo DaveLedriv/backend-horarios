@@ -61,3 +61,11 @@ def eliminar_plan(plan_id: int, db: Session = Depends(get_db)):
 
     db.delete(plan)
     db.commit()
+
+@router.get("/{plan_id}", response_model=PlanEstudioResponse)
+def obtener_plan(plan_id: int, db: Session = Depends(get_db)):
+    plan = db.query(PlanEstudio).filter(PlanEstudio.id == plan_id).first()
+    if plan is None:
+        raise HTTPException(status_code=404, detail="Plan no encontrado")
+    return plan
+
