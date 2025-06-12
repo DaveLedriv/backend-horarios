@@ -14,4 +14,5 @@ class Docente(Base):
     facultad = relationship("Facultad", back_populates="docentes")
     asignaciones = relationship("AsignacionMateria", back_populates="docente", cascade="all, delete")
     clases = relationship("ClaseProgramada", back_populates="docente")
+    disponibilidades = relationship("DisponibilidadDocente", back_populates="docente", cascade="all, delete")
 
