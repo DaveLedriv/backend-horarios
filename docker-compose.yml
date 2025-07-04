@@ -10,7 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - dbdata:/var/lib/postgresql/data  # ✅ solo lo necesario
-
+      - ./demo_seed.sql:/docker-entrypoint-initdb.d/demo_seed.sql
   backend:
     build: .
     ports:

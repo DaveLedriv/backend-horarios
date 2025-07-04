@@ -3,6 +3,8 @@ from app.models.clase_programada import ClaseProgramada
 from app.models.clase_programada import DiaSemanaEnum
 from datetime import time
 from typing import List, Optional
+from app.models.disponibilidad_docente import DisponibilidadDocente
+
 
 # Rango horario base
 HORARIO_INICIO = time(7, 0)
@@ -60,3 +62,20 @@ def obtener_disponibilidad_docente(
             })
 
     return disponibilidad
+
+def obtener_bloques_disponibles_registrados(
+    db: Session,
+    docente_id: int
+) -> List[dict]:
+    bloques = db.query(DisponibilidadDocente).filter(
+        DisponibilidadDocente.docente_id == docente_id
+    ).all()
+
+    return [
+        {
+            "dia": b.dia,
+            "hora_inicio": b.hora_inicio,
+            "hora_fin": b.hora_fin
+        }
+        for b in bloques
+    ]
