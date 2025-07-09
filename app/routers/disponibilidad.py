@@ -47,13 +47,25 @@ def eliminar_disponibilidad(disponibilidad_id: int, db: Session = Depends(get_db
     db.commit()
     return
 
+
 @router.get("/docente/{docente_id}", response_model=DisponibilidadDocenteResponse)
 def listar_disponibilidad_registrada(docente_id: int, db: Session = Depends(get_db)):
-    bloques = obtener_bloques_disponibles_registrados(db, docente_id)
+    bloques = db.query(DisponibilidadDocente).filter(DisponibilidadDocente.docente_id == docente_id).all()
+    if not bloques:
+        raise HTTPException(status_code=404, detail="No hay disponibilidad registrada para este docente")
+
     return {
         "docente_id": docente_id,
-        "disponibles": [BloqueDisponible(**b) for b in bloques]
+        "disponibles": [
+            {
+                "id": bloque.id,
+                "dia": bloque.dia,
+                "hora_inicio": bloque.hora_inicio,
+                "hora_fin": bloque.hora_fin
+            } for bloque in bloques
+        ]
     }
+
 
 @router.get("/docente/{docente_id}", response_model=DisponibilidadDocenteResponse)
 def obtener_disponibilidad_registrada(docente_id: int, db: Session = Depends(get_db)):
