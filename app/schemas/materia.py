@@ -8,6 +8,7 @@ class MateriaBase(BaseModel):
     creditos: int
     tipo: Optional[str] = None
     plan_estudio_id: int
+    permite_superposicion: bool = False
 
 class MateriaCreate(MateriaBase):
     pass
@@ -24,3 +25,4 @@ class MateriaUpdate(BaseModel):
     creditos: Optional[int] = None
     tipo: Optional[str] = None
     plan_estudio_id: Optional[int] = None
+    permite_superposicion: Optional[bool] = None

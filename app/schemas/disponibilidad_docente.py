@@ -1,21 +1,11 @@
 from pydantic import BaseModel
 from datetime import time
 from typing import List, Optional
-from enum import Enum
-
-
-class DiaSemanaEnum(str, Enum):
-    lunes = "lunes"
-    martes = "martes"
-    miercoles = "miercoles"
-    jueves = "jueves"
-    viernes = "viernes"
-    sabado = "sabado"
-    domingo = "domingo"
+from app.enums import DiaSemanaEnum
 
 
 class BloqueDisponible(BaseModel):
-    id: Optional[int]  # ← ID necesario para edición/eliminación
+    id: Optional[int] = None  # ← ID necesario para edición/eliminación
     dia: DiaSemanaEnum
     hora_inicio: time
     hora_fin: time

@@ -1,3 +1,4 @@
+# flake8: noqa
 from app.models.facultad import Facultad
 from app.models.plan_estudio import PlanEstudio
 from app.models.materia import Materia
