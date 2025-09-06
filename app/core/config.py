@@ -6,6 +6,8 @@ class Settings(BaseSettings):
     DB_NAME: str
     DB_USER: str
     DB_PASSWORD: str
+    SECRET_KEY: str = "change_me"
+    ALGORITHM: str = "HS256"
 
     class Config:
         env_file = ".env"

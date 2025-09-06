@@ -1,17 +1,6 @@
 from datetime import time
 from pydantic import BaseModel, Field, validator
-from typing import Optional
-from enum import Enum
-
-
-class DiaSemanaEnum(str, Enum):
-    lunes = "lunes"
-    martes = "martes"
-    miercoles = "miercoles"
-    jueves = "jueves"
-    viernes = "viernes"
-    sabado = "sabado"
-    domingo = "domingo"
+from app.enums import DiaSemanaEnum
 
 
 class ClaseProgramadaBase(BaseModel):

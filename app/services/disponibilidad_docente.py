@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 from app.models.clase_programada import ClaseProgramada
-from app.models.clase_programada import DiaSemanaEnum
 from datetime import time
 from typing import List, Optional
 from app.models.disponibilidad_docente import DisponibilidadDocente
+from app.enums import DiaSemanaEnum
 
 
 # Rango horario base
@@ -11,7 +11,11 @@ HORARIO_INICIO = time(7, 0)
 HORARIO_FIN = time(21, 0)
 
 DIAS_SEMANA = [
-    "lunes", "martes", "miércoles", "jueves", "viernes"
+    DiaSemanaEnum.lunes,
+    DiaSemanaEnum.martes,
+    DiaSemanaEnum.miercoles,
+    DiaSemanaEnum.jueves,
+    DiaSemanaEnum.viernes,
 ]
 
 def obtener_disponibilidad_docente(
