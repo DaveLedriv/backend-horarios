@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from app.core.database import SessionLocal
+from app.core.database import get_db
 from app.models.plan_estudio import PlanEstudio
 from app.schemas.plan_estudio import PlanEstudioCreate, PlanEstudioResponse
 from app.schemas.plan_estudio import PlanEstudioWithMaterias
@@ -10,13 +11,6 @@ from app.schemas.plan_estudio import PlanEstudioUpdate
 
 
 router = APIRouter(prefix="/planes-estudio", tags=["Planes de Estudio"])
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 @router.get("/", response_model=List[PlanEstudioResponse])
 def listar_planes(db: Session = Depends(get_db)):

@@ -1,16 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, Time, Enum, String
 from sqlalchemy.orm import relationship
 from app.core.database import Base
-import enum
-
-class DiaSemanaEnum(str, enum.Enum):
-    lunes = "lunes"
-    martes = "martes"
-    miercoles = "miercoles"
-    jueves = "jueves"
-    viernes = "viernes"
-    sabado = "sabado"
-    domingo = "domingo"
+from app.enums import DiaSemanaEnum
 
 class ClaseProgramada(Base):
     __tablename__ = "clases_programadas"

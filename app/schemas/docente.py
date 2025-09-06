@@ -1,8 +1,7 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional
+from typing import Optional, List
 from datetime import time
-from typing import List
-from enum import Enum
+from app.enums import DiaSemanaEnum
 
 class DocenteBase(BaseModel):
     nombre: str
@@ -26,14 +25,6 @@ class DocenteUpdate(BaseModel):
     numero_empleado: Optional[str] = None
     facultad_id: Optional[int] = None
 
-class DiaSemanaEnum(str, Enum):
-    lunes = "lunes"
-    martes = "martes"
-    miercoles = "miercoles"
-    jueves = "jueves"
-    viernes = "viernes"
-    sabado = "sabado"
-    domingo = "domingo"
 
 
 class ClaseHorario(BaseModel):

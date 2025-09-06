@@ -1,20 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from app.core.database import SessionLocal
+from app.core.database import get_db
 from app.models.materia import Materia
 from app.schemas.materia import MateriaCreate, MateriaResponse
 from app.schemas.materia import MateriaUpdate
 
 
 router = APIRouter(prefix="/materias", tags=["Materias"])
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 @router.get("/", response_model=List[MateriaResponse])
 def listar_materias(db: Session = Depends(get_db)):

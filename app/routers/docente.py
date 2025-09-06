@@ -1,25 +1,22 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import List
-from app.core.database import SessionLocal
-from app.models.docente import Docente
-from app.schemas.docente import DocenteCreate, DocenteResponse
-from app.schemas.docente import DocenteUpdate
-from app.schemas.docente import DisponibilidadDocenteResponse, BloqueDisponible
-from app.services.disponibilidad_docente import obtener_disponibilidad_docente
-from fastapi import Query
 from datetime import time
-from app.models.clase_programada import DiaSemanaEnum
+
+from app.core.database import get_db
+from app.models.docente import Docente
+from app.schemas.docente import (
+    DocenteCreate,
+    DocenteResponse,
+    DocenteUpdate,
+    DisponibilidadDocenteResponse,
+    BloqueDisponible,
+)
+from app.services.disponibilidad_docente import obtener_disponibilidad_docente
+from app.enums import DiaSemanaEnum
 
 
 router = APIRouter(prefix="/docentes", tags=["Docentes"])
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 @router.get("/", response_model=List[DocenteResponse])
 def listar_docentes(db: Session = Depends(get_db)):
@@ -36,8 +33,6 @@ def crear_docente(docente: DocenteCreate, db: Session = Depends(get_db)):
         db.rollback()
         raise HTTPException(status_code=400, detail="Correo o número de empleado duplicado")
     return nuevo
-
-from app.schemas.docente import DocenteUpdate
 
 @router.put("/{docente_id}", response_model=DocenteResponse)
 def actualizar_docente(docente_id: int, datos: DocenteUpdate, db: Session = Depends(get_db)):
