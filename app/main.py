@@ -10,8 +10,6 @@ from app.routers import horarios
 from app.routers import disponibilidad  # <-- ✅ ESTE ES NUEVO
 from app.routers.auth import auth_router
 
-from app.core.config import settings
-from app.core.database import engine, Base
 
 def create_app():
     app = FastAPI(title="Sistema de Horarios Universitarios")
@@ -35,5 +33,6 @@ def create_app():
     app.include_router(auth_router)
 
     return app
+
 
 app = create_app()

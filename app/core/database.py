@@ -7,7 +7,7 @@ from app.core.config import settings
 Base = declarative_base()
 
 # Fuerza la carga de todos los modelos (evita ciclos de importación)
-import app.models  # <-- Esto carga todos los modelos sin ciclo
+import app.models  # noqa: F401 E402  # <-- Esto carga todos los modelos sin ciclo
 
 # Construye la URL y el engine
 DATABASE_URL = (
@@ -17,6 +17,7 @@ DATABASE_URL = (
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
 
 def get_db():
     db = SessionLocal()

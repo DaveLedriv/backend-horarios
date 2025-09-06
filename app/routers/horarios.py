@@ -18,9 +18,7 @@ def obtener_horario_docente(docente_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Docente no encontrado")
 
     clases = (
-        db.query(ClaseProgramada)
-        .filter(ClaseProgramada.docente_id == docente_id)
-        .all()
+        db.query(ClaseProgramada).filter(ClaseProgramada.docente_id == docente_id).all()
     )
 
     clases_formateadas = [
@@ -36,6 +34,7 @@ def obtener_horario_docente(docente_id: int, db: Session = Depends(get_db)):
 
     return HorarioDocenteResponse(docente_id=docente_id, clases=clases_formateadas)
 
+
 @router.get("/docente/{docente_id}/excel")
 def exportar_horario_excel(docente_id: int, db: Session = Depends(get_db)):
     docente = db.query(Docente).filter(Docente.id == docente_id).first()
@@ -43,17 +42,19 @@ def exportar_horario_excel(docente_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Docente no encontrado")
 
     clases = (
-        db.query(ClaseProgramada)
-        .filter(ClaseProgramada.docente_id == docente_id)
-        .all()
+        db.query(ClaseProgramada).filter(ClaseProgramada.docente_id == docente_id).all()
     )
 
     excel_file = generar_excel_horario(clases, docente.nombre)
 
     return StreamingResponse(
         content=excel_file,
-        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        media_type=(
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ),
         headers={
-            "Content-Disposition": f'attachment; filename="horario_{docente.nombre}.xlsx"'
+            "Content-Disposition": (
+                f'attachment; filename="horario_{docente.nombre}.xlsx"'
+            )
         },
     )

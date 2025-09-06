@@ -5,7 +5,7 @@ from app.enums import DiaSemanaEnum
 
 
 class BloqueDisponible(BaseModel):
-    id: Optional[int]  # ← ID necesario para edición/eliminación
+    id: Optional[int] = None  # ← ID necesario para edición/eliminación
     dia: DiaSemanaEnum
     hora_inicio: time
     hora_fin: time

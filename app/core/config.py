@@ -1,8 +1,9 @@
 from pydantic_settings import BaseSettings
 
+
 class Settings(BaseSettings):
-    DB_HOST: str
-    DB_PORT: str
+    DB_HOST: str = "db"
+    DB_PORT: int = 5432
     DB_NAME: str
     DB_USER: str
     DB_PASSWORD: str
@@ -11,5 +12,6 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+
 
 settings = Settings()

@@ -1,0 +1,5 @@
+[flake8]
+max-line-length = 88
+per-file-ignores =
+    app/core/database.py: F401,E402
+    app/models/__init__.py: F401
