@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from app.core.database import get_db
@@ -9,7 +10,6 @@ from app.schemas.plan_estudio import PlanEstudioUpdate
 
 
 router = APIRouter(prefix="/planes-estudio", tags=["Planes de Estudio"])
-
 
 @router.get("/", response_model=List[PlanEstudioResponse])
 def listar_planes(db: Session = Depends(get_db)):
