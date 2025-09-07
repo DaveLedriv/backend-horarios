@@ -43,7 +43,7 @@ class HorarioDocenteResponse(BaseModel):
     clases: List[ClaseHorario]
 
 class BloqueDisponible(BaseModel):
-    dia: str
+    dia: DiaSemanaEnum
     hora_inicio: time
     hora_fin: time
 

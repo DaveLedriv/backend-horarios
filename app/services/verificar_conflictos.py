@@ -1,12 +1,13 @@
 from sqlalchemy.orm import Session
 from app.models.clase_programada import ClaseProgramada
 from app.models.materia import Materia
+from app.enums import DiaSemanaEnum
 
 def verificar_conflictos(
     db: Session,
     docente_id: int,
     aula: str,
-    dia: str,
+    dia: DiaSemanaEnum,
     hora_inicio,
     hora_fin,
     materia_id: int,
@@ -20,7 +21,7 @@ def verificar_conflictos(
         db: Sesión de base de datos.
         docente_id: ID del docente.
         aula: Nombre del aula.
-        dia: Día de la semana.
+        dia: Día de la semana como ``DiaSemanaEnum``.
         hora_inicio: Hora de inicio de la clase.
         hora_fin: Hora de fin de la clase.
         materia_id: ID de la materia.
