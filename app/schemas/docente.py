@@ -43,6 +43,11 @@ class HorarioDocenteResponse(BaseModel):
     docente_id: int
     clases: List[ClaseHorario]
 
+
 class DisponibilidadDocenteResponse(BaseModel):
+    """Incluye disponibilidad registrada y tiempos libres calculados."""
+
     docente_id: int
-    disponibles: List[BloqueDisponible]
+    registrada: List[BloqueDisponible]
+    tiempos_libres: List[BloqueDisponible]
+

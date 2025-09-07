@@ -12,7 +12,9 @@ from app.schemas.docente import (
     DisponibilidadDocenteResponse,
     BloqueDisponible,
 )
-from app.services.disponibilidad_docente import obtener_disponibilidad_docente
+from app.services.disponibilidad_docente import (
+    obtener_disponibilidad_docente_completa,
+)
 from app.enums import DiaSemanaEnum
 
 
@@ -70,15 +72,21 @@ def consultar_disponibilidad(
     hasta: time = Query(None, description="Hora máxima de fin, formato HH:MM"),
     db: Session = Depends(get_db)
 ):
+    """Obtiene tanto la disponibilidad registrada como los tiempos libres calculados."""
     docente = db.query(Docente).filter(Docente.id == docente_id).first()
     if not docente:
         raise HTTPException(status_code=404, detail="Docente no encontrado")
 
-    bloques = obtener_disponibilidad_docente(db, docente_id, dia, desde, hasta)
+    disponibilidad = obtener_disponibilidad_docente_completa(
+        db, docente_id, dia, desde, hasta
+    )
 
     return DisponibilidadDocenteResponse(
         docente_id=docente_id,
-        disponibles=[BloqueDisponible(**b) for b in bloques]
+        registrada=[BloqueDisponible(**b) for b in disponibilidad["registrada"]],
+        tiempos_libres=[
+            BloqueDisponible(**b) for b in disponibilidad["tiempos_libres"]
+        ],
     )
 @router.get("/{docente_id}", response_model=DocenteResponse)
 def obtener_docente(docente_id: int, db: Session = Depends(get_db)):

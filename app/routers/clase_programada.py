@@ -10,6 +10,7 @@ from app.schemas.clase_programada import (
     ClaseProgramadaUpdate,
     ClaseProgramadaResponse,
 )
+from app.schemas.aula import AulaResponse
 from app.models.clase_programada import ClaseProgramada
 from app.core.database import get_db
 from app.services import verificar_conflictos
@@ -24,15 +25,20 @@ def listar_clases_programadas(db: Session = Depends(get_db)):
 
 @router.post("/", response_model=ClaseProgramadaResponse)
 def crear_clase_programada(clase: ClaseProgramadaCreate, db: Session = Depends(get_db)):
-    conflicto = verificar_conflictos(
+    conflicto, disponible = verificar_conflictos(
         db=db,
         docente_id=clase.docente_id,
-        aula=clase.aula,
-        dia=clase.dia,
+
         hora_inicio=clase.hora_inicio,
         hora_fin=clase.hora_fin,
         materia_id=clase.materia_id,
     )
+
+    if not disponible:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El docente no está disponible en ese horario.",
+        )
 
     if conflicto:
         raise HTTPException(
@@ -58,16 +64,20 @@ def actualizar_clase_programada(
     if not clase:
         raise HTTPException(status_code=404, detail="Clase no encontrada")
 
-    conflicto = verificar_conflictos(
+    conflicto, disponible = verificar_conflictos(
         db=db,
         docente_id=clase_actualizada.docente_id,
-        aula=clase_actualizada.aula,
-        dia=clase_actualizada.dia,
+
         hora_inicio=clase_actualizada.hora_inicio,
         hora_fin=clase_actualizada.hora_fin,
         materia_id=clase_actualizada.materia_id,
         clase_id_ignorar=clase_id,
     )
+
+    if not disponible:
+        raise HTTPException(
+            status_code=400, detail="El docente no está disponible en ese horario."
+        )
 
     if conflicto:
         raise HTTPException(
@@ -92,7 +102,7 @@ def eliminar_clase_programada(clase_id: int, db: Session = Depends(get_db)):
     db.commit()
 
 
-@router.get("/aulas/disponibles", response_model=List[str])
+@router.get("/aulas/disponibles", response_model=List[AulaResponse])
 def aulas_disponibles(
     dia: DiaSemanaEnum = Query(..., description="Día de la semana"),
     hora_inicio: time = Query(..., description="Hora inicio en formato HH:MM"),
