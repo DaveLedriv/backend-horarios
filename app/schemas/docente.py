@@ -2,6 +2,7 @@ from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 from datetime import time
 from app.enums import DiaSemanaEnum
+from app.schemas.disponibilidad_docente import BloqueDisponible
 
 class DocenteBase(BaseModel):
     nombre: str
@@ -42,10 +43,6 @@ class HorarioDocenteResponse(BaseModel):
     docente_id: int
     clases: List[ClaseHorario]
 
-class BloqueDisponible(BaseModel):
-    dia: DiaSemanaEnum
-    hora_inicio: time
-    hora_fin: time
 
 class DisponibilidadDocenteResponse(BaseModel):
     """Incluye disponibilidad registrada y tiempos libres calculados."""
