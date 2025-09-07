@@ -1,22 +1,21 @@
 from sqlalchemy.orm import Session
 from datetime import time
 from app.models.clase_programada import ClaseProgramada
+from app.models.aula import Aula
 from app.enums import DiaSemanaEnum
 
 
 def obtener_aulas_disponibles(
     db: Session, dia: DiaSemanaEnum, hora_inicio: time, hora_fin: time
 ):
-    clases = db.query(ClaseProgramada).filter(ClaseProgramada.dia == dia).all()
+    clases = (
+        db.query(ClaseProgramada)
+        .filter(ClaseProgramada.dia == dia)
+        .filter(ClaseProgramada.hora_inicio < hora_fin, ClaseProgramada.hora_fin > hora_inicio)
+        .all()
+    )
 
-    aulas_ocupadas = {
-        clase.aula
-        for clase in clases
-        if clase.hora_inicio < hora_fin and clase.hora_fin > hora_inicio
-    }
+    aulas_ocupadas = {clase.aula_id for clase in clases}
+    todas_las_aulas = db.query(Aula).all()
 
-    # Obtener todas las aulas registradas
-    todas_las_aulas = db.query(ClaseProgramada.aula).distinct().all()
-    aulas_todas = {aula[0] for aula in todas_las_aulas}
-
-    return list(aulas_todas - aulas_ocupadas)
+    return [aula for aula in todas_las_aulas if aula.id not in aulas_ocupadas]

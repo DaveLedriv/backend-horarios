@@ -5,7 +5,7 @@ from app.models.materia import Materia
 def verificar_conflictos(
     db: Session,
     docente_id: int,
-    aula: str,
+    aula_id: int,
     dia: str,
     hora_inicio,
     hora_fin,
@@ -19,7 +19,7 @@ def verificar_conflictos(
     Args:
         db: Sesión de base de datos.
         docente_id: ID del docente.
-        aula: Nombre del aula.
+        aula_id: ID del aula.
         dia: Día de la semana.
         hora_inicio: Hora de inicio de la clase.
         hora_fin: Hora de fin de la clase.
@@ -38,8 +38,8 @@ def verificar_conflictos(
         ClaseProgramada.hora_inicio < hora_fin,
         ClaseProgramada.hora_fin > hora_inicio,
         (
-            (ClaseProgramada.docente_id == docente_id) |
-            (ClaseProgramada.aula == aula)
+        (ClaseProgramada.docente_id == docente_id) |
+            (ClaseProgramada.aula_id == aula_id)
         )
     )
 

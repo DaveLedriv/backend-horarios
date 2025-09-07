@@ -24,7 +24,7 @@ def obtener_horario_docente(docente_id: int, db: Session = Depends(get_db)):
     clases_formateadas = [
         ClaseHorario(
             materia=clase.materia.nombre,
-            aula=clase.aula,
+            aula=clase.aula.nombre,
             dia=clase.dia,
             hora_inicio=clase.hora_inicio,
             hora_fin=clase.hora_fin,
