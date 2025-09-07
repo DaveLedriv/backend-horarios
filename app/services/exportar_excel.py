@@ -28,7 +28,7 @@ def generar_excel_horario(clases: List[ClaseProgramada], nombre_docente: str) ->
     for clase in clases:
         ws.append([
             clase.materia.nombre,
-            clase.aula,
+            clase.aula.nombre,
             clase.dia,
             clase.hora_inicio.strftime("%H:%M"),
             clase.hora_fin.strftime("%H:%M"),
