@@ -83,3 +83,59 @@ def obtener_bloques_disponibles_registrados(
         }
         for b in bloques
     ]
+
+
+def obtener_disponibilidad_docente_completa(
+    db: Session,
+    docente_id: int,
+    dia: Optional[DiaSemanaEnum] = None,
+    desde: Optional[time] = None,
+    hasta: Optional[time] = None,
+) -> dict:
+    """
+    Combina la disponibilidad registrada con los tiempos libres calculados.
+
+    La disponibilidad registrada corresponde a los bloques que el docente ha
+    definido explícitamente como disponibles. Los tiempos libres calculados se
+    derivan del horario de clases programadas y representan las horas sin
+    clases dentro del rango consultado.
+    """
+
+    registrada = obtener_bloques_disponibles_registrados(db, docente_id)
+
+    # Filtrar la disponibilidad registrada según los parámetros recibidos
+    if dia or desde or hasta:
+        filtrada = []
+        for bloque in registrada:
+            if dia and bloque["dia"] != dia:
+                continue
+
+            inicio = bloque["hora_inicio"]
+            fin = bloque["hora_fin"]
+
+            if desde and fin <= desde:
+                continue
+            if hasta and inicio >= hasta:
+                continue
+
+            if desde:
+                inicio = max(inicio, desde)
+            if hasta:
+                fin = min(fin, hasta)
+
+            filtrada.append({
+                "dia": bloque["dia"],
+                "hora_inicio": inicio,
+                "hora_fin": fin,
+            })
+
+        registrada = filtrada
+
+    tiempos_libres = obtener_disponibilidad_docente(
+        db, docente_id, dia, desde, hasta
+    )
+
+    return {
+        "registrada": registrada,
+        "tiempos_libres": tiempos_libres,
+    }
