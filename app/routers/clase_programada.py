@@ -10,6 +10,7 @@ from app.schemas.clase_programada import (
     ClaseProgramadaUpdate,
     ClaseProgramadaResponse,
 )
+from app.schemas.aula import AulaResponse
 from app.models.clase_programada import ClaseProgramada
 from app.core.database import get_db
 from app.services import verificar_conflictos
@@ -27,7 +28,7 @@ def crear_clase_programada(clase: ClaseProgramadaCreate, db: Session = Depends(g
     conflicto = verificar_conflictos(
         db=db,
         docente_id=clase.docente_id,
-        aula=clase.aula,
+        aula_id=clase.aula_id,
         dia=clase.dia,
         hora_inicio=clase.hora_inicio,
         hora_fin=clase.hora_fin,
@@ -61,7 +62,7 @@ def actualizar_clase_programada(
     conflicto = verificar_conflictos(
         db=db,
         docente_id=clase_actualizada.docente_id,
-        aula=clase_actualizada.aula,
+        aula_id=clase_actualizada.aula_id,
         dia=clase_actualizada.dia,
         hora_inicio=clase_actualizada.hora_inicio,
         hora_fin=clase_actualizada.hora_fin,
@@ -92,7 +93,7 @@ def eliminar_clase_programada(clase_id: int, db: Session = Depends(get_db)):
     db.commit()
 
 
-@router.get("/aulas/disponibles", response_model=List[str])
+@router.get("/aulas/disponibles", response_model=List[AulaResponse])
 def aulas_disponibles(
     dia: DiaSemanaEnum = Query(..., description="Día de la semana"),
     hora_inicio: time = Query(..., description="Hora inicio en formato HH:MM"),

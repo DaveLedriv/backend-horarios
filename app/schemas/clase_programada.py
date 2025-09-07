@@ -6,7 +6,7 @@ from app.enums import DiaSemanaEnum
 class ClaseProgramadaBase(BaseModel):
     docente_id: int = Field(..., gt=0)
     materia_id: int = Field(..., gt=0)
-    aula: str
+    aula_id: int = Field(..., gt=0)
     dia: DiaSemanaEnum
     hora_inicio: time
     hora_fin: time

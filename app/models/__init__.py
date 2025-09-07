@@ -7,3 +7,4 @@ from app.models.asignacion_materia import AsignacionMateria
 from app.models.clase_programada import ClaseProgramada
 from app.models.admin import Admin
 from .disponibilidad_docente import DisponibilidadDocente
+from app.models.aula import Aula
