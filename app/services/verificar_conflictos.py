@@ -3,14 +3,12 @@ from typing import Tuple
 
 from app.models.clase_programada import ClaseProgramada
 from app.models.materia import Materia
-from app.models.disponibilidad_docente import DisponibilidadDocente
 
 
 def verificar_conflictos(
     db: Session,
     docente_id: int,
-    aula_id: int,
-    dia: str,
+
     hora_inicio,
     hora_fin,
     materia_id: int,
@@ -24,8 +22,7 @@ def verificar_conflictos(
     Args:
         db: Sesión de base de datos.
         docente_id: ID del docente.
-        aula_id: ID del aula.
-        dia: Día de la semana.
+
         hora_inicio: Hora de inicio de la clase.
         hora_fin: Hora de fin de la clase.
         materia_id: ID de la materia.
