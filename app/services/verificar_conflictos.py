@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from app.models.clase_programada import ClaseProgramada
 from app.models.materia import Materia
 
+
 def verificar_conflictos(
     db: Session,
     docente_id: int,
@@ -30,18 +31,24 @@ def verificar_conflictos(
         True si hay conflicto, False si no.
     """
     materia = db.query(Materia).filter(Materia.id == materia_id).first()
-    if materia and materia.permite_superposicion:
-        return False  # Se permite superposición, no hay conflicto
 
     query = db.query(ClaseProgramada).filter(
         ClaseProgramada.dia == dia,
         ClaseProgramada.hora_inicio < hora_fin,
         ClaseProgramada.hora_fin > hora_inicio,
-        (
-            (ClaseProgramada.docente_id == docente_id) |
-            (ClaseProgramada.aula == aula)
-        )
     )
+
+    if materia and materia.permite_superposicion:
+        # Siempre validar conflicto por aula aunque se permita superposición
+        query = query.filter(ClaseProgramada.aula == aula)
+    else:
+        # Si no se permite superposición, validar por docente o aula
+        query = query.filter(
+            (
+                (ClaseProgramada.docente_id == docente_id) |
+                (ClaseProgramada.aula == aula)
+            )
+        )
 
     if clase_id_ignorar:
         query = query.filter(ClaseProgramada.id != clase_id_ignorar)
