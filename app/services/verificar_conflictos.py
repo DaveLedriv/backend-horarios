@@ -5,6 +5,7 @@ from app.models.clase_programada import ClaseProgramada
 from app.models.materia import Materia
 from app.models.disponibilidad_docente import DisponibilidadDocente
 
+
 def verificar_conflictos(
     db: Session,
     docente_id: int,
@@ -36,27 +37,26 @@ def verificar_conflictos(
             - bool: True si el docente está disponible, False en caso contrario.
     """
     materia = db.query(Materia).filter(Materia.id == materia_id).first()
-    if materia and materia.permite_superposicion:
-        return False, True  # Se permite superposición, no hay conflicto y disponibilidad asumida
 
-    # Verificar disponibilidad del docente
-    disponible = db.query(DisponibilidadDocente).filter(
-        DisponibilidadDocente.docente_id == docente_id,
-        DisponibilidadDocente.dia == dia,
-        DisponibilidadDocente.hora_inicio <= hora_inicio,
-        DisponibilidadDocente.hora_fin >= hora_fin,
-    ).first()
-    docente_disponible = disponible is not None
 
     query = db.query(ClaseProgramada).filter(
         ClaseProgramada.dia == dia,
         ClaseProgramada.hora_inicio < hora_fin,
         ClaseProgramada.hora_fin > hora_inicio,
-        (
-        (ClaseProgramada.docente_id == docente_id) |
-            (ClaseProgramada.aula_id == aula_id)
-        )
+
     )
+
+    if materia and materia.permite_superposicion:
+        # Siempre validar conflicto por aula aunque se permita superposición
+        query = query.filter(ClaseProgramada.aula == aula)
+    else:
+        # Si no se permite superposición, validar por docente o aula
+        query = query.filter(
+            (
+                (ClaseProgramada.docente_id == docente_id) |
+                (ClaseProgramada.aula == aula)
+            )
+        )
 
     if clase_id_ignorar:
         query = query.filter(ClaseProgramada.id != clase_id_ignorar)
