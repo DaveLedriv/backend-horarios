@@ -1,3 +1,7 @@
+-- Admins
+INSERT INTO admins (username, hashed_password) VALUES
+('admin', '$2b$12$EsZwlXKvHEvnxkzuiPKvQ.3uc2h2zcoUq39YDj/86BMhIRQwNHQvm');
+
 -- Facultades
 INSERT INTO facultades (nombre) VALUES
 ('Facultad de Ingeniería'),
