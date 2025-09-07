@@ -24,7 +24,7 @@ def listar_clases_programadas(db: Session = Depends(get_db)):
 
 @router.post("/", response_model=ClaseProgramadaResponse)
 def crear_clase_programada(clase: ClaseProgramadaCreate, db: Session = Depends(get_db)):
-    conflicto = verificar_conflictos(
+    conflicto, disponible = verificar_conflictos(
         db=db,
         docente_id=clase.docente_id,
         aula=clase.aula,
@@ -33,6 +33,12 @@ def crear_clase_programada(clase: ClaseProgramadaCreate, db: Session = Depends(g
         hora_fin=clase.hora_fin,
         materia_id=clase.materia_id,
     )
+
+    if not disponible:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El docente no está disponible en ese horario.",
+        )
 
     if conflicto:
         raise HTTPException(
@@ -58,7 +64,7 @@ def actualizar_clase_programada(
     if not clase:
         raise HTTPException(status_code=404, detail="Clase no encontrada")
 
-    conflicto = verificar_conflictos(
+    conflicto, disponible = verificar_conflictos(
         db=db,
         docente_id=clase_actualizada.docente_id,
         aula=clase_actualizada.aula,
@@ -68,6 +74,11 @@ def actualizar_clase_programada(
         materia_id=clase_actualizada.materia_id,
         clase_id_ignorar=clase_id,
     )
+
+    if not disponible:
+        raise HTTPException(
+            status_code=400, detail="El docente no está disponible en ese horario."
+        )
 
     if conflicto:
         raise HTTPException(
