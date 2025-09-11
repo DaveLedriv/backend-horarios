@@ -10,23 +10,60 @@ from app.schemas.disponibilidad_docente import DisponibilidadDocenteResponse, Bl
 
 router = APIRouter(prefix="/disponibilidad", tags=["Disponibilidad"])
 
+
 @router.post("/", status_code=201)
-def crear_disponibilidad(disponibilidad: DisponibilidadDocenteMultipleCreate, db: Session = Depends(get_db)):
+def crear_disponibilidad(
+    disponibilidad: DisponibilidadDocenteMultipleCreate,
+    db: Session = Depends(get_db),
+):
     for bloque in disponibilidad.disponibles:
+        conflicto = db.query(DisponibilidadDocente).filter(
+            DisponibilidadDocente.docente_id == disponibilidad.docente_id,
+            DisponibilidadDocente.dia == bloque.dia,
+            DisponibilidadDocente.hora_inicio < bloque.hora_fin,
+            DisponibilidadDocente.hora_fin > bloque.hora_inicio,
+        ).first()
+        if conflicto:
+            raise HTTPException(
+                status_code=400, detail="Bloques de disponibilidad traslapados"
+            )
+
         nueva_disponibilidad = DisponibilidadDocente(
             docente_id=disponibilidad.docente_id,
             dia=bloque.dia,
             hora_inicio=bloque.hora_inicio,
-            hora_fin=bloque.hora_fin
+            hora_fin=bloque.hora_fin,
         )
         db.add(nueva_disponibilidad)
+        db.flush()
+
     db.commit()
     return {"mensaje": "Disponibilidades registradas correctamente"}
+
+
 @router.put("/{disponibilidad_id}", status_code=200)
-def actualizar_disponibilidad(disponibilidad_id: int, datos: DisponibilidadDocenteCreate, db: Session = Depends(get_db)):
-    disponibilidad = db.query(DisponibilidadDocente).filter(DisponibilidadDocente.id == disponibilidad_id).first()
+def actualizar_disponibilidad(
+    disponibilidad_id: int, datos: DisponibilidadDocenteCreate, db: Session = Depends(get_db)
+):
+    disponibilidad = (
+        db.query(DisponibilidadDocente)
+        .filter(DisponibilidadDocente.id == disponibilidad_id)
+        .first()
+    )
     if not disponibilidad:
         raise HTTPException(status_code=404, detail="Disponibilidad no encontrada")
+
+    conflicto = db.query(DisponibilidadDocente).filter(
+        DisponibilidadDocente.docente_id == datos.docente_id,
+        DisponibilidadDocente.dia == datos.dia,
+        DisponibilidadDocente.hora_inicio < datos.hora_fin,
+        DisponibilidadDocente.hora_fin > datos.hora_inicio,
+        DisponibilidadDocente.id != disponibilidad_id,
+    ).first()
+    if conflicto:
+        raise HTTPException(
+            status_code=400, detail="Bloques de disponibilidad traslapados"
+        )
 
     disponibilidad.dia = datos.dia
     disponibilidad.hora_inicio = datos.hora_inicio
