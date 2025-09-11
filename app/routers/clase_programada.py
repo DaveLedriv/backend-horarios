@@ -28,10 +28,11 @@ def crear_clase_programada(clase: ClaseProgramadaCreate, db: Session = Depends(g
     conflicto, disponible = verificar_conflictos(
         db=db,
         docente_id=clase.docente_id,
-
+        dia=clase.dia,
         hora_inicio=clase.hora_inicio,
         hora_fin=clase.hora_fin,
         materia_id=clase.materia_id,
+        aula_id=clase.aula_id,
     )
 
     if not disponible:
@@ -67,10 +68,11 @@ def actualizar_clase_programada(
     conflicto, disponible = verificar_conflictos(
         db=db,
         docente_id=clase_actualizada.docente_id,
-
+        dia=clase_actualizada.dia,
         hora_inicio=clase_actualizada.hora_inicio,
         hora_fin=clase_actualizada.hora_fin,
         materia_id=clase_actualizada.materia_id,
+        aula_id=clase_actualizada.aula_id,
         clase_id_ignorar=clase_id,
     )
 
