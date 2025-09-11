@@ -1,13 +1,12 @@
 -- Reset and seed database for demo purposes
-TRUNCATE TABLE clases_programadas,
-               asignaciones_materia,
-               disponibilidad_docente,
-               docentes,
-               materias,
-               planes_estudio,
-               facultades,
-               aulas
-RESTART IDENTITY CASCADE;
+TRUNCATE TABLE IF EXISTS clases_programadas RESTART IDENTITY CASCADE;
+TRUNCATE TABLE IF EXISTS asignaciones_materia RESTART IDENTITY CASCADE;
+TRUNCATE TABLE IF EXISTS disponibilidad_docente RESTART IDENTITY CASCADE;
+TRUNCATE TABLE IF EXISTS docentes RESTART IDENTITY CASCADE;
+TRUNCATE TABLE IF EXISTS materias RESTART IDENTITY CASCADE;
+TRUNCATE TABLE IF EXISTS planes_estudio RESTART IDENTITY CASCADE;
+TRUNCATE TABLE IF EXISTS facultades RESTART IDENTITY CASCADE;
+TRUNCATE TABLE IF EXISTS aulas RESTART IDENTITY CASCADE;
 
 -- Admins
 INSERT INTO admins (username, hashed_password) VALUES
