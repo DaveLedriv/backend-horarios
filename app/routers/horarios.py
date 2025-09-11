@@ -3,9 +3,11 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.models.clase_programada import ClaseProgramada
 from app.models.docente import Docente
+from app.models.aula import Aula
 from app.schemas.docente import HorarioDocenteResponse, ClaseHorario
+from app.schemas.aula import HorarioAulaResponse, ClaseHorarioAula
 from fastapi.responses import StreamingResponse
-from app.services.exportar_excel import generar_excel_horario
+from app.services.exportar_excel import generar_excel_horario, generar_excel_horario_aula
 
 
 router = APIRouter(prefix="/horarios", tags=["Horarios"])
@@ -55,6 +57,55 @@ def exportar_horario_excel(docente_id: int, db: Session = Depends(get_db)):
         headers={
             "Content-Disposition": (
                 f'attachment; filename="horario_{docente.nombre}.xlsx"'
+            )
+        },
+    )
+
+
+@router.get("/aula/{aula_id}", response_model=HorarioAulaResponse)
+def obtener_horario_aula(aula_id: int, db: Session = Depends(get_db)):
+    aula = db.query(Aula).filter(Aula.id == aula_id).first()
+    if not aula:
+        raise HTTPException(status_code=404, detail="Aula no encontrada")
+
+    clases = (
+        db.query(ClaseProgramada).filter(ClaseProgramada.aula_id == aula_id).all()
+    )
+
+    clases_formateadas = [
+        ClaseHorarioAula(
+            materia=clase.materia.nombre,
+            docente=clase.docente.nombre,
+            dia=clase.dia,
+            hora_inicio=clase.hora_inicio,
+            hora_fin=clase.hora_fin,
+        )
+        for clase in clases
+    ]
+
+    return HorarioAulaResponse(aula_id=aula_id, clases=clases_formateadas)
+
+
+@router.get("/aula/{aula_id}/excel")
+def exportar_horario_aula_excel(aula_id: int, db: Session = Depends(get_db)):
+    aula = db.query(Aula).filter(Aula.id == aula_id).first()
+    if not aula:
+        raise HTTPException(status_code=404, detail="Aula no encontrada")
+
+    clases = (
+        db.query(ClaseProgramada).filter(ClaseProgramada.aula_id == aula_id).all()
+    )
+
+    excel_file = generar_excel_horario_aula(clases, aula.nombre)
+
+    return StreamingResponse(
+        content=excel_file,
+        media_type=(
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ),
+        headers={
+            "Content-Disposition": (
+                f'attachment; filename="horario_aula_{aula.nombre}.xlsx"'
             )
         },
     )
