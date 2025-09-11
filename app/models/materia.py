@@ -2,9 +2,10 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app.core.database import Base
 from sqlalchemy import Boolean
+from app.models.timestamp_mixin import TimestampMixin
 
 
-class Materia(Base):
+class Materia(TimestampMixin, Base):
     __tablename__ = "materias"
 
     id = Column(Integer, primary_key=True, index=True)

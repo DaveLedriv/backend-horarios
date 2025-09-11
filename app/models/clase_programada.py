@@ -2,8 +2,9 @@ from sqlalchemy import Column, Integer, ForeignKey, Time, Enum
 from sqlalchemy.orm import relationship
 from app.core.database import Base
 from app.enums import DiaSemanaEnum
+from app.models.timestamp_mixin import TimestampMixin
 
-class ClaseProgramada(Base):
+class ClaseProgramada(TimestampMixin, Base):
     __tablename__ = "clases_programadas"
 
     id = Column(Integer, primary_key=True, index=True)
