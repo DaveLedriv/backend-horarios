@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+from app.models.timestamp_mixin import TimestampMixin
 
-class AsignacionMateria(Base):
+class AsignacionMateria(TimestampMixin, Base):
     __tablename__ = "asignaciones_materia"
     __table_args__ = (UniqueConstraint('docente_id', 'materia_id', name='uix_docente_materia'),)
 

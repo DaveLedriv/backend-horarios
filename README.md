@@ -17,5 +17,11 @@ Use these credentials to sign in during demos.
 
 La disponibilidad registrada puede no coincidir con los tiempos libres calculados. Un docente puede tener
 tiempos libres en su horario que no haya marcado como disponibles, o viceversa.
+
+## Campos de auditoría
+
+Los modelos `Docente`, `Materia`, `AsignacionMateria` y `ClaseProgramada` ahora incluyen los campos
+`created_at` y `updated_at` proporcionados por `TimestampMixin`. Estos campos registran la fecha de creación
+del registro y se actualizan automáticamente al modificarlo.
  main
 

@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+from app.models.timestamp_mixin import TimestampMixin
 
-class Docente(Base):
+class Docente(TimestampMixin, Base):
     __tablename__ = "docentes"
 
     id = Column(Integer, primary_key=True, index=True)
