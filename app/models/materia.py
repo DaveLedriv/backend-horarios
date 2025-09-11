@@ -1,11 +1,9 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, TIMESTAMP, func, Boolean
 from sqlalchemy.orm import relationship
 from app.core.database import Base
-from sqlalchemy import Boolean
-from app.models.timestamp_mixin import TimestampMixin
 
 
-class Materia(TimestampMixin, Base):
+class Materia(Base):
     __tablename__ = "materias"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -19,3 +17,10 @@ class Materia(TimestampMixin, Base):
     asignaciones = relationship("AsignacionMateria", back_populates="materia", cascade="all, delete")
     clases = relationship("ClaseProgramada", back_populates="materia")
     permite_superposicion = Column(Boolean, default=False)
+
+    created_at = Column(
+        TIMESTAMP(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at = Column(
+        TIMESTAMP(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )

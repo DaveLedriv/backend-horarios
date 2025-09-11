@@ -1,9 +1,8 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, TIMESTAMP, func
 from sqlalchemy.orm import relationship
 from app.core.database import Base
-from app.models.timestamp_mixin import TimestampMixin
 
-class Docente(TimestampMixin, Base):
+class Docente(Base):
     __tablename__ = "docentes"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -16,4 +15,11 @@ class Docente(TimestampMixin, Base):
     asignaciones = relationship("AsignacionMateria", back_populates="docente", cascade="all, delete")
     clases = relationship("ClaseProgramada", back_populates="docente")
     disponibilidades = relationship("DisponibilidadDocente", back_populates="docente", cascade="all, delete")
+
+    created_at = Column(
+        TIMESTAMP(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at = Column(
+        TIMESTAMP(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
 
