@@ -12,6 +12,7 @@ from app.schemas.clase_programada import (
 )
 from app.schemas.aula import AulaResponse
 from app.models.clase_programada import ClaseProgramada
+from app.models.asignacion_materia import AsignacionMateria
 from app.core.database import get_db
 from app.services import verificar_conflictos
 
@@ -25,6 +26,16 @@ def listar_clases_programadas(db: Session = Depends(get_db)):
 
 @router.post("/", response_model=ClaseProgramadaResponse)
 def crear_clase_programada(clase: ClaseProgramadaCreate, db: Session = Depends(get_db)):
+    asignacion = db.query(AsignacionMateria).filter(
+        AsignacionMateria.docente_id == clase.docente_id,
+        AsignacionMateria.materia_id == clase.materia_id,
+    ).first()
+    if not asignacion:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Docente no asignado a la materia",
+        )
+
     conflicto, disponible = verificar_conflictos(
         db=db,
         docente_id=clase.docente_id,
@@ -64,6 +75,15 @@ def actualizar_clase_programada(
 
     if not clase:
         raise HTTPException(status_code=404, detail="Clase no encontrada")
+
+    asignacion = db.query(AsignacionMateria).filter(
+        AsignacionMateria.docente_id == clase_actualizada.docente_id,
+        AsignacionMateria.materia_id == clase_actualizada.materia_id,
+    ).first()
+    if not asignacion:
+        raise HTTPException(
+            status_code=400, detail="Docente no asignado a la materia"
+        )
 
     conflicto, disponible = verificar_conflictos(
         db=db,
