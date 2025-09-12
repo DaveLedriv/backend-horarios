@@ -1,4 +1,4 @@
-from datetime import time
+from datetime import time, datetime
 from typing import List
 
 from pydantic import BaseModel, Field, validator
@@ -21,6 +21,15 @@ class ClaseProgramadaBase(BaseModel):
         if v_lower not in dias_validos:
             raise ValueError("El día no es válido")
         return DiaSemanaEnum(v_lower)
+
+    @validator("hora_inicio", "hora_fin", pre=True)
+    def parsear_hora(cls, value):
+        if isinstance(value, str):
+            try:
+                return datetime.strptime(value.strip().upper(), "%I:%M %p").time()
+            except ValueError:
+                raise ValueError("Formato de hora inválido. Use HH:MM AM/PM")
+        return value
 
     @validator("hora_fin")
     def validar_horario(cls, fin, values):
