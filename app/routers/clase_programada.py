@@ -24,7 +24,7 @@ def listar_clases_programadas(db: Session = Depends(get_db)):
     return db.query(ClaseProgramada).all()
 
 
-@router.post("/", response_model=ClaseProgramadaResponse)
+@router.post("", response_model=ClaseProgramadaResponse)
 def crear_clase_programada(clase: ClaseProgramadaCreate, db: Session = Depends(get_db)):
     asignacion = db.query(AsignacionMateria).filter(
         AsignacionMateria.docente_id == clase.docente_id,
