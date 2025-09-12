@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, selectinload
@@ -7,7 +7,8 @@ from app.core.database import get_db
 from app.models.clase_programada import ClaseProgramada
 from app.models.docente import Docente
 from app.models.aula import Aula
-from app.schemas.clase_programada import ClaseProgramadaResponse
+from app.schemas.clase_programada import ClaseProgramadaDetalle
+from app.models.asignacion_materia import AsignacionMateria
 from fastapi.responses import StreamingResponse
 from app.services.exportar_excel import generar_excel_horario, generar_excel_horario_aula
 
@@ -15,7 +16,7 @@ from app.services.exportar_excel import generar_excel_horario, generar_excel_hor
 router = APIRouter(prefix="/horarios", tags=["Horarios"])
 
 
-@router.get("/docente/{docente_id}", response_model=List[ClaseProgramadaResponse])
+@router.get("/docente/{docente_id}", response_model=Dict[str, List[ClaseProgramadaDetalle]])
 def obtener_horario_docente(docente_id: int, db: Session = Depends(get_db)):
     docente = db.query(Docente).filter(Docente.id == docente_id).first()
     if not docente:
@@ -24,15 +25,17 @@ def obtener_horario_docente(docente_id: int, db: Session = Depends(get_db)):
     clases = (
         db.query(ClaseProgramada)
         .options(
-            selectinload(ClaseProgramada.docente),
-            selectinload(ClaseProgramada.materia),
+            selectinload(ClaseProgramada.asignacion)
+            .selectinload(AsignacionMateria.docente),
+            selectinload(ClaseProgramada.asignacion)
+            .selectinload(AsignacionMateria.materia),
             selectinload(ClaseProgramada.aula),
         )
         .filter(ClaseProgramada.docente_id == docente_id)
         .all()
     )
 
-    return clases
+    return {"clases": clases}
 
 
 @router.get("/docente/{docente_id}/excel")
@@ -67,7 +70,7 @@ def exportar_horario_excel(docente_id: int, db: Session = Depends(get_db)):
     )
 
 
-@router.get("/aula/{aula_id}", response_model=List[ClaseProgramadaResponse])
+@router.get("/aula/{aula_id}", response_model=Dict[str, List[ClaseProgramadaDetalle]])
 def obtener_horario_aula(aula_id: int, db: Session = Depends(get_db)):
     aula = db.query(Aula).filter(Aula.id == aula_id).first()
     if not aula:
@@ -76,15 +79,17 @@ def obtener_horario_aula(aula_id: int, db: Session = Depends(get_db)):
     clases = (
         db.query(ClaseProgramada)
         .options(
-            selectinload(ClaseProgramada.docente),
-            selectinload(ClaseProgramada.materia),
+            selectinload(ClaseProgramada.asignacion)
+            .selectinload(AsignacionMateria.docente),
+            selectinload(ClaseProgramada.asignacion)
+            .selectinload(AsignacionMateria.materia),
             selectinload(ClaseProgramada.aula),
         )
         .filter(ClaseProgramada.aula_id == aula_id)
         .all()
     )
 
-    return clases
+    return {"clases": clases}
 
 
 @router.get("/aula/{aula_id}/excel")

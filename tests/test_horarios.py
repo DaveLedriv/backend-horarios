@@ -19,6 +19,7 @@ from app.models import (
     Materia,
     Aula,
     ClaseProgramada,
+    AsignacionMateria,
 )
 from app.enums import DiaSemanaEnum
 
@@ -78,6 +79,10 @@ def crear_datos_base(db):
     db.add_all([docente, aula, materia])
     db.commit()
 
+    asignacion = AsignacionMateria(docente_id=docente.id, materia_id=materia.id)
+    db.add(asignacion)
+    db.commit()
+
     clase = ClaseProgramada(
         docente_id=docente.id,
         materia_id=materia.id,
@@ -88,38 +93,31 @@ def crear_datos_base(db):
     )
     db.add(clase)
     db.commit()
-    return docente.id, aula.id, clase.id, materia.id
+    return docente.id, aula.id, clase.id, materia.id, asignacion.id
 
 
 def test_horario_docente_devuelve_clases(client, session):
-    docente_id, aula_id, clase_id, materia_id = crear_datos_base(session)
+    docente_id, aula_id, clase_id, materia_id, asignacion_id = crear_datos_base(session)
     response = client.get(f"/horarios/docente/{docente_id}")
     assert response.status_code == 200
-    assert response.json() == [
-        {
-            "id": clase_id,
-            "docente_id": docente_id,
-            "materia_id": materia_id,
-            "aula_id": aula_id,
-            "dia": "lunes",
-            "hora_inicio": "09:00:00",
-            "hora_fin": "10:00:00",
-        }
-    ]
+    data = response.json()
+    assert "clases" in data
+    assert len(data["clases"]) == 1
+    clase = data["clases"][0]
+    assert clase["id"] == clase_id
+    assert clase["asignacion"]["id"] == asignacion_id
+    assert clase["asignacion"]["docente"]["id"] == docente_id
+    assert clase["aula"]["id"] == aula_id
 
 
 def test_horario_aula_devuelve_clases(client, session):
-    docente_id, aula_id, clase_id, materia_id = crear_datos_base(session)
+    docente_id, aula_id, clase_id, materia_id, asignacion_id = crear_datos_base(session)
     response = client.get(f"/horarios/aula/{aula_id}")
     assert response.status_code == 200
-    assert response.json() == [
-        {
-            "id": clase_id,
-            "docente_id": docente_id,
-            "materia_id": materia_id,
-            "aula_id": aula_id,
-            "dia": "lunes",
-            "hora_inicio": "09:00:00",
-            "hora_fin": "10:00:00",
-        }
-    ]
+    data = response.json()
+    assert "clases" in data
+    assert len(data["clases"]) == 1
+    clase = data["clases"][0]
+    assert clase["id"] == clase_id
+    assert clase["asignacion"]["id"] == asignacion_id
+    assert clase["aula"]["id"] == aula_id

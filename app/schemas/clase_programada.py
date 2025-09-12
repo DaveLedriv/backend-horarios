@@ -4,6 +4,8 @@ from typing import List
 from pydantic import BaseModel, Field, validator
 
 from app.enums import DiaSemanaEnum
+from app.schemas.asignacion_materia import AsignacionMateriaResponse
+from app.schemas.aula import AulaResponse
 
 
 class ClaseProgramadaBase(BaseModel):
@@ -49,6 +51,14 @@ class ClaseProgramadaUpdate(ClaseProgramadaBase):
 
 class ClaseProgramadaResponse(ClaseProgramadaBase):
     id: int
+
+    class Config:
+        from_attributes = True
+
+
+class ClaseProgramadaDetalle(ClaseProgramadaResponse):
+    asignacion: AsignacionMateriaResponse
+    aula: AulaResponse
 
     class Config:
         from_attributes = True
