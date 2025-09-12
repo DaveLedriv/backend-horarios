@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from typing import List
 from datetime import time
 
@@ -9,6 +9,7 @@ from app.schemas.clase_programada import (
     ClaseProgramadaCreate,
     ClaseProgramadaUpdate,
     ClaseProgramadaResponse,
+    ClaseProgramadaDetalle,
 )
 from app.schemas.aula import AulaResponse
 from app.models.clase_programada import ClaseProgramada
@@ -22,6 +23,25 @@ router = APIRouter(prefix="/clases-programadas", tags=["Clases Programadas"])
 @router.get("/", response_model=List[ClaseProgramadaResponse])
 def listar_clases_programadas(db: Session = Depends(get_db)):
     return db.query(ClaseProgramada).all()
+
+
+@router.get("/{clase_id}", response_model=ClaseProgramadaDetalle)
+def obtener_clase_programada(clase_id: int, db: Session = Depends(get_db)):
+    clase = (
+        db.query(ClaseProgramada)
+        .options(
+            selectinload(ClaseProgramada.asignacion)
+            .selectinload(AsignacionMateria.docente),
+            selectinload(ClaseProgramada.asignacion)
+            .selectinload(AsignacionMateria.materia),
+            selectinload(ClaseProgramada.aula),
+        )
+        .filter(ClaseProgramada.id == clase_id)
+        .first()
+    )
+    if not clase:
+        raise HTTPException(status_code=404, detail="Clase no encontrada")
+    return clase
 
 
 @router.post("", response_model=ClaseProgramadaResponse)
