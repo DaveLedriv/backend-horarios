@@ -1,5 +1,8 @@
 from datetime import time
+from typing import List
+
 from pydantic import BaseModel, Field, validator
+
 from app.enums import DiaSemanaEnum
 
 
@@ -10,6 +13,14 @@ class ClaseProgramadaBase(BaseModel):
     dia: DiaSemanaEnum
     hora_inicio: time
     hora_fin: time
+
+    @validator("dia", pre=True)
+    def validar_dia(cls, v: str) -> DiaSemanaEnum:
+        v_lower = v.lower()
+        dias_validos: List[str] = [d.value for d in DiaSemanaEnum]
+        if v_lower not in dias_validos:
+            raise ValueError("El día no es válido")
+        return DiaSemanaEnum(v_lower)
 
     @validator("hora_fin")
     def validar_horario(cls, fin, values):
