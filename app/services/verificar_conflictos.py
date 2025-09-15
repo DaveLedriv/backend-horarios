@@ -1,3 +1,4 @@
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from typing import Tuple
 
@@ -15,6 +16,7 @@ def verificar_conflictos(
     hora_fin,
     materia_id: int,
     aula_id: int,
+    grupo_id: int,
     clase_id_ignorar: int = None,
 ) -> Tuple[bool, bool]:
     """Valida conflictos y disponibilidad de un docente.
@@ -32,6 +34,7 @@ def verificar_conflictos(
         hora_fin: Hora de fin de la clase.
         materia_id: ID de la materia.
         aula_id: ID del aula.
+        grupo_id: ID del grupo.
         clase_id_ignorar: ID de clase a ignorar (por ejemplo, durante edición).
 
     Returns:
@@ -51,17 +54,21 @@ def verificar_conflictos(
     if clase_id_ignorar:
         query = query.filter(ClaseProgramada.id != clase_id_ignorar)
 
+    condiciones_conflicto = [ClaseProgramada.grupo_id == grupo_id]
+
     if materia and materia.permite_superposicion:
         # Siempre validar conflicto por aula aunque se permita superposición
-        query = query.filter(ClaseProgramada.aula_id == aula_id)
+        condiciones_conflicto.append(ClaseProgramada.aula_id == aula_id)
     else:
         # Si no se permite superposición, validar por docente o aula
-        query = query.filter(
-            (
-                (ClaseProgramada.docente_id == docente_id)
-                | (ClaseProgramada.aula_id == aula_id)
-            )
+        condiciones_conflicto.extend(
+            [
+                ClaseProgramada.docente_id == docente_id,
+                ClaseProgramada.aula_id == aula_id,
+            ]
         )
+
+    query = query.filter(or_(*condiciones_conflicto))
 
     conflicto = db.query(query.exists()).scalar()
 

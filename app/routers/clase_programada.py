@@ -81,6 +81,7 @@ def crear_clase_programada(clase: ClaseProgramadaCreate, db: Session = Depends(g
         hora_fin=clase.hora_fin,
         materia_id=clase.materia_id,
         aula_id=clase.aula_id,
+        grupo_id=clase.grupo_id,
     )
 
     if not disponible:
@@ -144,6 +145,7 @@ def actualizar_clase_programada(
         hora_fin=clase_actualizada.hora_fin,
         materia_id=clase_actualizada.materia_id,
         aula_id=clase_actualizada.aula_id,
+        grupo_id=clase_actualizada.grupo_id,
         clase_id_ignorar=clase_id,
     )
 
