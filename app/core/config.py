@@ -10,6 +10,14 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "change_me"
     ALGORITHM: str = "HS256"
 
+    MAX_HORAS_CONTINUAS_DOCENTE: float = 4.0
+    MAX_HORAS_DIARIAS_DOCENTE: float = 8.0
+    MAX_HORAS_SEMANALES_DOCENTE: float = 15.0
+
+    MAX_HORAS_CONTINUAS_GRUPO: float = 4.0
+    MAX_HORAS_DIARIAS_GRUPO: float = 8.0
+    MAX_HORAS_SEMANALES_GRUPO: float = 20.0
+
     class Config:
         env_file = ".env"
 
