@@ -14,6 +14,7 @@ from app.schemas.clase_programada import (
 from app.schemas.aula import AulaResponse
 from app.models.clase_programada import ClaseProgramada
 from app.models.asignacion_materia import AsignacionMateria
+from app.models.grupo import Grupo
 from app.core.database import get_db
 from app.services import verificar_conflictos
 
@@ -35,6 +36,7 @@ def obtener_clase_programada(clase_id: int, db: Session = Depends(get_db)):
             selectinload(ClaseProgramada.asignacion)
             .selectinload(AsignacionMateria.materia),
             selectinload(ClaseProgramada.aula),
+            selectinload(ClaseProgramada.grupo),
         )
         .filter(ClaseProgramada.id == clase_id)
         .first()
@@ -46,6 +48,10 @@ def obtener_clase_programada(clase_id: int, db: Session = Depends(get_db)):
 
 @router.post("", response_model=ClaseProgramadaResponse)
 def crear_clase_programada(clase: ClaseProgramadaCreate, db: Session = Depends(get_db)):
+    grupo = db.query(Grupo).filter(Grupo.id == clase.grupo_id).first()
+    if not grupo:
+        raise HTTPException(status_code=404, detail="Grupo no encontrado")
+
     asignacion = db.query(AsignacionMateria).filter(
         AsignacionMateria.docente_id == clase.docente_id,
         AsignacionMateria.materia_id == clase.materia_id,
@@ -95,6 +101,10 @@ def actualizar_clase_programada(
 
     if not clase:
         raise HTTPException(status_code=404, detail="Clase no encontrada")
+
+    grupo = db.query(Grupo).filter(Grupo.id == clase_actualizada.grupo_id).first()
+    if not grupo:
+        raise HTTPException(status_code=404, detail="Grupo no encontrado")
 
     asignacion = db.query(AsignacionMateria).filter(
         AsignacionMateria.docente_id == clase_actualizada.docente_id,
