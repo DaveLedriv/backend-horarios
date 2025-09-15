@@ -4,6 +4,7 @@ from typing import List
 from datetime import time
 
 from app.enums import DiaSemanaEnum
+from app.core.config import settings
 from app.services.aulas_disponibles import obtener_aulas_disponibles
 from app.schemas.clase_programada import (
     ClaseProgramadaCreate,
@@ -18,6 +19,14 @@ from app.models.grupo import Grupo
 from app.models.aula import Aula
 from app.core.database import get_db
 from app.services import verificar_conflictos
+from app.services.carga_academica import (
+    obtener_horas_continuas_docente,
+    obtener_horas_continuas_grupo,
+    obtener_total_horas_diarias_docente,
+    obtener_total_horas_diarias_grupo,
+    obtener_total_horas_semanales_docente,
+    obtener_total_horas_semanales_grupo,
+)
 
 router = APIRouter(prefix="/clases-programadas", tags=["Clases Programadas"])
 
@@ -96,6 +105,82 @@ def crear_clase_programada(clase: ClaseProgramadaCreate, db: Session = Depends(g
             detail="Conflicto detectado con otra clase en horario o aula.",
         )
 
+    horas_continuas_docente = obtener_horas_continuas_docente(
+        db=db,
+        docente_id=clase.docente_id,
+        dia=clase.dia,
+        hora_inicio=clase.hora_inicio,
+        hora_fin=clase.hora_fin,
+    )
+    if horas_continuas_docente > settings.MAX_HORAS_CONTINUAS_DOCENTE:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El docente excede las horas continuas permitidas.",
+        )
+
+    horas_diarias_docente = obtener_total_horas_diarias_docente(
+        db=db,
+        docente_id=clase.docente_id,
+        dia=clase.dia,
+        hora_inicio=clase.hora_inicio,
+        hora_fin=clase.hora_fin,
+    )
+    if horas_diarias_docente > settings.MAX_HORAS_DIARIAS_DOCENTE:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El docente excede las horas diarias permitidas.",
+        )
+
+    horas_semanales_docente = obtener_total_horas_semanales_docente(
+        db=db,
+        docente_id=clase.docente_id,
+        hora_inicio=clase.hora_inicio,
+        hora_fin=clase.hora_fin,
+    )
+    if horas_semanales_docente > settings.MAX_HORAS_SEMANALES_DOCENTE:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El docente excede las horas semanales permitidas.",
+        )
+
+    horas_continuas_grupo = obtener_horas_continuas_grupo(
+        db=db,
+        grupo_id=clase.grupo_id,
+        dia=clase.dia,
+        hora_inicio=clase.hora_inicio,
+        hora_fin=clase.hora_fin,
+    )
+    if horas_continuas_grupo > settings.MAX_HORAS_CONTINUAS_GRUPO:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El grupo excede las horas continuas permitidas.",
+        )
+
+    horas_diarias_grupo = obtener_total_horas_diarias_grupo(
+        db=db,
+        grupo_id=clase.grupo_id,
+        dia=clase.dia,
+        hora_inicio=clase.hora_inicio,
+        hora_fin=clase.hora_fin,
+    )
+    if horas_diarias_grupo > settings.MAX_HORAS_DIARIAS_GRUPO:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El grupo excede las horas diarias permitidas.",
+        )
+
+    horas_semanales_grupo = obtener_total_horas_semanales_grupo(
+        db=db,
+        grupo_id=clase.grupo_id,
+        hora_inicio=clase.hora_inicio,
+        hora_fin=clase.hora_fin,
+    )
+    if horas_semanales_grupo > settings.MAX_HORAS_SEMANALES_GRUPO:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El grupo excede las horas semanales permitidas.",
+        )
+
     nueva_clase = ClaseProgramada(**clase.dict())
     db.add(nueva_clase)
     db.commit()
@@ -157,6 +242,88 @@ def actualizar_clase_programada(
     if conflicto:
         raise HTTPException(
             status_code=400, detail="Conflicto detectado con otra clase"
+        )
+
+    horas_continuas_docente = obtener_horas_continuas_docente(
+        db=db,
+        docente_id=clase_actualizada.docente_id,
+        dia=clase_actualizada.dia,
+        hora_inicio=clase_actualizada.hora_inicio,
+        hora_fin=clase_actualizada.hora_fin,
+        clase_id_ignorar=clase_id,
+    )
+    if horas_continuas_docente > settings.MAX_HORAS_CONTINUAS_DOCENTE:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El docente excede las horas continuas permitidas.",
+        )
+
+    horas_diarias_docente = obtener_total_horas_diarias_docente(
+        db=db,
+        docente_id=clase_actualizada.docente_id,
+        dia=clase_actualizada.dia,
+        hora_inicio=clase_actualizada.hora_inicio,
+        hora_fin=clase_actualizada.hora_fin,
+        clase_id_ignorar=clase_id,
+    )
+    if horas_diarias_docente > settings.MAX_HORAS_DIARIAS_DOCENTE:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El docente excede las horas diarias permitidas.",
+        )
+
+    horas_semanales_docente = obtener_total_horas_semanales_docente(
+        db=db,
+        docente_id=clase_actualizada.docente_id,
+        hora_inicio=clase_actualizada.hora_inicio,
+        hora_fin=clase_actualizada.hora_fin,
+        clase_id_ignorar=clase_id,
+    )
+    if horas_semanales_docente > settings.MAX_HORAS_SEMANALES_DOCENTE:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El docente excede las horas semanales permitidas.",
+        )
+
+    horas_continuas_grupo = obtener_horas_continuas_grupo(
+        db=db,
+        grupo_id=clase_actualizada.grupo_id,
+        dia=clase_actualizada.dia,
+        hora_inicio=clase_actualizada.hora_inicio,
+        hora_fin=clase_actualizada.hora_fin,
+        clase_id_ignorar=clase_id,
+    )
+    if horas_continuas_grupo > settings.MAX_HORAS_CONTINUAS_GRUPO:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El grupo excede las horas continuas permitidas.",
+        )
+
+    horas_diarias_grupo = obtener_total_horas_diarias_grupo(
+        db=db,
+        grupo_id=clase_actualizada.grupo_id,
+        dia=clase_actualizada.dia,
+        hora_inicio=clase_actualizada.hora_inicio,
+        hora_fin=clase_actualizada.hora_fin,
+        clase_id_ignorar=clase_id,
+    )
+    if horas_diarias_grupo > settings.MAX_HORAS_DIARIAS_GRUPO:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El grupo excede las horas diarias permitidas.",
+        )
+
+    horas_semanales_grupo = obtener_total_horas_semanales_grupo(
+        db=db,
+        grupo_id=clase_actualizada.grupo_id,
+        hora_inicio=clase_actualizada.hora_inicio,
+        hora_fin=clase_actualizada.hora_fin,
+        clase_id_ignorar=clase_id,
+    )
+    if horas_semanales_grupo > settings.MAX_HORAS_SEMANALES_GRUPO:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El grupo excede las horas semanales permitidas.",
         )
 
     for field, value in clase_actualizada.dict().items():
