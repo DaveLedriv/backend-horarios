@@ -15,6 +15,7 @@ from app.schemas.aula import AulaResponse
 from app.models.clase_programada import ClaseProgramada
 from app.models.asignacion_materia import AsignacionMateria
 from app.models.grupo import Grupo
+from app.models.aula import Aula
 from app.core.database import get_db
 from app.services import verificar_conflictos
 
@@ -51,6 +52,16 @@ def crear_clase_programada(clase: ClaseProgramadaCreate, db: Session = Depends(g
     grupo = db.query(Grupo).filter(Grupo.id == clase.grupo_id).first()
     if not grupo:
         raise HTTPException(status_code=404, detail="Grupo no encontrado")
+
+    aula = db.query(Aula).filter(Aula.id == clase.aula_id).first()
+    if not aula:
+        raise HTTPException(status_code=404, detail="Aula no encontrada")
+
+    if aula.capacidad is not None and grupo.num_estudiantes > aula.capacidad:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El grupo excede la capacidad del aula.",
+        )
 
     asignacion = db.query(AsignacionMateria).filter(
         AsignacionMateria.docente_id == clase.docente_id,
@@ -105,6 +116,16 @@ def actualizar_clase_programada(
     grupo = db.query(Grupo).filter(Grupo.id == clase_actualizada.grupo_id).first()
     if not grupo:
         raise HTTPException(status_code=404, detail="Grupo no encontrado")
+
+    aula = db.query(Aula).filter(Aula.id == clase_actualizada.aula_id).first()
+    if not aula:
+        raise HTTPException(status_code=404, detail="Aula no encontrada")
+
+    if aula.capacidad is not None and grupo.num_estudiantes > aula.capacidad:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El grupo excede la capacidad del aula.",
+        )
 
     asignacion = db.query(AsignacionMateria).filter(
         AsignacionMateria.docente_id == clase_actualizada.docente_id,

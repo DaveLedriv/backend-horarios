@@ -21,6 +21,7 @@ from app.models import (
     ClaseProgramada,
     AsignacionMateria,
     Grupo,
+    DisponibilidadDocente,
 )
 from app.enums import DiaSemanaEnum
 
@@ -97,6 +98,64 @@ def crear_datos_base(db):
     db.add(clase)
     db.commit()
     return docente.id, aula.id, clase.id, materia.id, asignacion.id, grupo.id
+
+
+def test_crear_clase_programada_sobrecupo(client, session):
+    facultad = Facultad(nombre="Facultad Y")
+    session.add(facultad)
+    session.commit()
+
+    plan = PlanEstudio(nombre="Plan Y", facultad_id=facultad.id)
+    session.add(plan)
+    session.commit()
+
+    docente = Docente(
+        nombre="Docente Dos",
+        correo="docente2@example.com",
+        numero_empleado="EMP002",
+        facultad_id=facultad.id,
+    )
+    session.add(docente)
+    session.commit()
+
+    aula = Aula(nombre="Aula 201", capacidad=30)
+    materia = Materia(
+        nombre="Materia Y",
+        codigo="MAT201",
+        creditos=4,
+        plan_estudio_id=plan.id,
+    )
+    grupo = Grupo(nombre="Grupo B", plan_estudio_id=plan.id, num_estudiantes=35)
+    session.add_all([aula, materia, grupo])
+    session.commit()
+
+    asignacion = AsignacionMateria(docente_id=docente.id, materia_id=materia.id)
+    session.add(asignacion)
+    session.commit()
+
+    disponibilidad = DisponibilidadDocente(
+        docente_id=docente.id,
+        dia=DiaSemanaEnum.lunes,
+        hora_inicio=time(8, 0),
+        hora_fin=time(12, 0),
+    )
+    session.add(disponibilidad)
+    session.commit()
+
+    data = {
+        "docente_id": docente.id,
+        "materia_id": materia.id,
+        "aula_id": aula.id,
+        "grupo_id": grupo.id,
+        "dia": "lunes",
+        "hora_inicio": "09:00 AM",
+        "hora_fin": "10:00 AM",
+    }
+
+    response = client.post("/clases-programadas", json=data)
+
+    assert response.status_code == 400
+    assert response.json()["detail"] == "El grupo excede la capacidad del aula."
 
 
 def test_obtener_clase_programada(client, session):
