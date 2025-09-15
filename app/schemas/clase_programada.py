@@ -6,12 +6,14 @@ from pydantic import BaseModel, Field, validator
 from app.enums import DiaSemanaEnum
 from app.schemas.asignacion_materia import AsignacionMateriaResponse
 from app.schemas.aula import AulaResponse
+from app.schemas.grupo import GrupoResponse
 
 
 class ClaseProgramadaBase(BaseModel):
     docente_id: int = Field(..., gt=0)
     materia_id: int = Field(..., gt=0)
     aula_id: int = Field(..., gt=0)
+    grupo_id: int = Field(..., gt=0)
     dia: DiaSemanaEnum
     hora_inicio: time
     hora_fin: time
@@ -59,6 +61,7 @@ class ClaseProgramadaResponse(ClaseProgramadaBase):
 class ClaseProgramadaDetalle(ClaseProgramadaResponse):
     asignacion: AsignacionMateriaResponse
     aula: AulaResponse
+    grupo: GrupoResponse
 
     class Config:
         from_attributes = True

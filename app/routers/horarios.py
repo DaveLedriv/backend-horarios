@@ -30,6 +30,7 @@ def obtener_horario_docente(docente_id: int, db: Session = Depends(get_db)):
             selectinload(ClaseProgramada.asignacion)
             .selectinload(AsignacionMateria.materia),
             selectinload(ClaseProgramada.aula),
+            selectinload(ClaseProgramada.grupo),
         )
         .filter(ClaseProgramada.docente_id == docente_id)
         .all()
@@ -84,6 +85,7 @@ def obtener_horario_aula(aula_id: int, db: Session = Depends(get_db)):
             selectinload(ClaseProgramada.asignacion)
             .selectinload(AsignacionMateria.materia),
             selectinload(ClaseProgramada.aula),
+            selectinload(ClaseProgramada.grupo),
         )
         .filter(ClaseProgramada.aula_id == aula_id)
         .all()

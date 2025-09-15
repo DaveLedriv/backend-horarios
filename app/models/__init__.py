@@ -9,3 +9,4 @@ from app.models.admin import Admin
 from .disponibilidad_docente import DisponibilidadDocente
 from app.models.aula import Aula
 from app.models.timestamp_mixin import TimestampMixin
+from app.models.grupo import Grupo

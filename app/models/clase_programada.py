@@ -11,6 +11,7 @@ class ClaseProgramada(TimestampMixin, Base):
     docente_id = Column(Integer, ForeignKey("docentes.id"))
     materia_id = Column(Integer, ForeignKey("materias.id"))
     aula_id = Column(Integer, ForeignKey("aulas.id"), nullable=False)
+    grupo_id = Column(Integer, ForeignKey("grupos.id"), nullable=False)
     dia = Column(Enum(DiaSemanaEnum), nullable=False)
     hora_inicio = Column(Time, nullable=False)
     hora_fin = Column(Time, nullable=False)
@@ -18,6 +19,7 @@ class ClaseProgramada(TimestampMixin, Base):
     docente = relationship("Docente", back_populates="clases")
     materia = relationship("Materia", back_populates="clases")
     aula = relationship("Aula", back_populates="clases")
+    grupo = relationship("Grupo", back_populates="clases")
     asignacion = relationship(
         "AsignacionMateria",
         primaryjoin=

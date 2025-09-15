@@ -10,5 +10,8 @@ class PlanEstudio(Base):
     facultad_id = Column(Integer, ForeignKey("facultades.id"), nullable=False)
 
     facultad = relationship("Facultad", back_populates="planes")
-    materias = relationship("Materia", back_populates="plan_estudio", cascade="all, delete")
+    materias = relationship(
+        "Materia", back_populates="plan_estudio", cascade="all, delete"
+    )
+    grupos = relationship("Grupo", back_populates="plan_estudio", cascade="all, delete")
 

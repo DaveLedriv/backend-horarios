@@ -10,6 +10,7 @@ from app.routers import horarios
 from app.routers import disponibilidad  # <-- ✅ ESTE ES NUEVO
 from app.routers import dias  # <-- ✅ ESTE ES NUEVO
 from app.routers import aula
+from app.routers import grupo
 from app.routers.auth import auth_router
 
 
@@ -31,6 +32,7 @@ def create_app():
     app.include_router(asignacion_materia.router)
     app.include_router(clase_programada.router)
     app.include_router(aula.router)
+    app.include_router(grupo.router)
     app.include_router(horarios.router)
     app.include_router(disponibilidad.router)  # <-- ✅ AQUÍ LO AÑADES
     app.include_router(dias.router)
