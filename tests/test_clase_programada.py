@@ -162,6 +162,47 @@ def asignar_docente_a_materia(db, docente_id: int, materia_id: int):
     return asignacion
 
 
+def test_crear_clase_programada_acepta_formato_24h(client, session):
+    facultad, _, materia, aula, grupo = crear_base_academica(session, "24H")
+    docente = crear_docente_con_disponibilidad(
+        session,
+        facultad.id,
+        "Docente 24H",
+        "docente24@example.com",
+        "EMP024",
+        [(DiaSemanaEnum.martes, time(8, 0), time(12, 0))],
+    )
+    asignar_docente_a_materia(session, docente.id, materia.id)
+
+    data_24h = {
+        "docente_id": docente.id,
+        "materia_id": materia.id,
+        "aula_id": aula.id,
+        "grupo_id": grupo.id,
+        "dia": "martes",
+        "hora_inicio": "09:00",
+        "hora_fin": "10:00",
+    }
+
+    response_24h = client.post("/clases-programadas", json=data_24h)
+
+    assert response_24h.status_code == 200
+
+    data_invalida = {**data_24h, "hora_inicio": "25:00", "hora_fin": "26:00"}
+
+    response_invalida = client.post("/clases-programadas", json=data_invalida)
+
+    assert response_invalida.status_code == 422
+    mensaje_error = (
+        "Formato de hora inválido. Use uno de los formatos válidos: "
+        "HH:MM AM/PM, HH:MM (24h), HH:MM:SS (24h)"
+    )
+    assert any(
+        mensaje_error in detalle.get("msg", "")
+        for detalle in response_invalida.json().get("detail", [])
+    )
+
+
 def test_crear_clase_programada_sobrecupo(client, session):
     facultad = Facultad(nombre="Facultad Y")
     session.add(facultad)
