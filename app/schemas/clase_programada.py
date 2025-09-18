@@ -29,10 +29,23 @@ class ClaseProgramadaBase(BaseModel):
     @validator("hora_inicio", "hora_fin", pre=True)
     def parsear_hora(cls, value):
         if isinstance(value, str):
-            try:
-                return datetime.strptime(value.strip().upper(), "%I:%M %p").time()
-            except ValueError:
-                raise ValueError("Formato de hora inválido. Use HH:MM AM/PM")
+            valor = value.strip()
+            formatos = [
+                ("%I:%M %p", valor.upper()),
+                ("%H:%M", valor),
+                ("%H:%M:%S", valor),
+            ]
+
+            for formato, valor_a_parsear in formatos:
+                try:
+                    return datetime.strptime(valor_a_parsear, formato).time()
+                except ValueError:
+                    continue
+
+            raise ValueError(
+                "Formato de hora inválido. Use uno de los formatos válidos: "
+                "HH:MM AM/PM, HH:MM (24h), HH:MM:SS (24h)"
+            )
         return value
 
     @validator("hora_fin")
