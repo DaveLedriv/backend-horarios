@@ -96,7 +96,7 @@ INSERT INTO materias (nombre, codigo, creditos, tipo, plan_estudio_id, permite_s
 ('Diseño de Interfaces de Usuario', 'SIS042', 4, 'Optativa', 1, true),
 ('Experiencia de Usuario', 'SIS043', 3, 'Optativa', 1, true),
 ('Arquitectura de Software Avanzada', 'SIS044', 4, 'Optativa', 1, true),
-('Taller Integrador de Sistemas', 'SIS045', 5, 'Optativa', 1, true)
+('Taller Integrador de Sistemas', 'SIS045', 5, 'Optativa', 1, true),
 -- Psicología
 ('Introducción a la Psicología', 'PSI001', 5, 'Obligatoria', 2, false),
 ('Historia de la Psicología', 'PSI002', 4, 'Obligatoria', 2, false),
@@ -142,7 +142,7 @@ INSERT INTO materias (nombre, codigo, creditos, tipo, plan_estudio_id, permite_s
 ('Psicología de Grupos', 'PSI042', 4, 'Optativa', 2, true),
 ('Desarrollo Humano', 'PSI043', 3, 'Optativa', 2, true),
 ('Seminario de Investigación Psicológica', 'PSI044', 4, 'Optativa', 2, true),
-('Psicología Transpersonal', 'PSI045', 5, 'Optativa', 2, true)
+('Psicología Transpersonal', 'PSI045', 5, 'Optativa', 2, true),
 -- Medicina General
 ('Anatomía Humana I', 'MED001', 5, 'Obligatoria', 3, false),
 ('Anatomía Humana II', 'MED002', 4, 'Obligatoria', 3, false),
@@ -188,7 +188,7 @@ INSERT INTO materias (nombre, codigo, creditos, tipo, plan_estudio_id, permite_s
 ('Rehabilitación', 'MED042', 4, 'Optativa', 3, true),
 ('Oncología', 'MED043', 3, 'Optativa', 3, true),
 ('Cuidados Intensivos', 'MED044', 4, 'Optativa', 3, true),
-('Taller de Investigación Clínica', 'MED045', 5, 'Optativa', 3, true)
+('Taller de Investigación Clínica', 'MED045', 5, 'Optativa', 3, true),
 -- Física Aplicada
 ('Introducción a la Física', 'FIS001', 5, 'Obligatoria', 4, false),
 ('Cálculo Diferencial', 'FIS002', 4, 'Obligatoria', 4, false),
@@ -234,7 +234,7 @@ INSERT INTO materias (nombre, codigo, creditos, tipo, plan_estudio_id, permite_s
 ('Didáctica de la Física', 'FIS042', 4, 'Optativa', 4, true),
 ('Proyecto Integrador de Física', 'FIS043', 3, 'Optativa', 4, true),
 ('Energías Renovables', 'FIS044', 4, 'Optativa', 4, true),
-('Metrología', 'FIS045', 5, 'Optativa', 4, true)
+('Metrología', 'FIS045', 5, 'Optativa', 4, true),
 -- Filosofía
 ('Introducción a la Filosofía', 'FIL001', 5, 'Obligatoria', 5, false),
 ('Historia de la Filosofía Antigua', 'FIL002', 4, 'Obligatoria', 5, false),
@@ -280,7 +280,7 @@ INSERT INTO materias (nombre, codigo, creditos, tipo, plan_estudio_id, permite_s
 ('Metodología Filosófica', 'FIL042', 4, 'Optativa', 5, true),
 ('Teología Filosófica', 'FIL043', 3, 'Optativa', 5, true),
 ('Estudios Comparados de Filosofía', 'FIL044', 4, 'Optativa', 5, true),
-('Práctica Profesional Filosófica', 'FIL045', 5, 'Optativa', 5, true)
+('Práctica Profesional Filosófica', 'FIL045', 5, 'Optativa', 5, true),
 -- Economía Empresarial
 ('Introducción a la Economía', 'ECO001', 5, 'Obligatoria', 6, false),
 ('Microeconomía I', 'ECO002', 4, 'Obligatoria', 6, false),
@@ -326,7 +326,7 @@ INSERT INTO materias (nombre, codigo, creditos, tipo, plan_estudio_id, permite_s
 ('Desarrollo Sustentable', 'ECO042', 4, 'Optativa', 6, true),
 ('Economía Digital', 'ECO043', 3, 'Optativa', 6, true),
 ('Finanzas Corporativas', 'ECO044', 4, 'Optativa', 6, true),
-('Gestión de Riesgos', 'ECO045', 5, 'Optativa', 6, true)
+('Gestión de Riesgos', 'ECO045', 5, 'Optativa', 6, true),
 -- Arquitectura Sustentable
 ('Dibujo Arquitectónico', 'ARQ001', 5, 'Obligatoria', 7, false),
 ('Geometría Descriptiva', 'ARQ002', 4, 'Obligatoria', 7, false),
@@ -372,7 +372,7 @@ INSERT INTO materias (nombre, codigo, creditos, tipo, plan_estudio_id, permite_s
 ('Diseño de Interiores', 'ARQ042', 4, 'Optativa', 7, true),
 ('Iluminación Arquitectónica', 'ARQ043', 3, 'Optativa', 7, true),
 ('Acústica Arquitectónica', 'ARQ044', 4, 'Optativa', 7, true),
-('Movilidad Urbana', 'ARQ045', 5, 'Optativa', 7, true)
+('Movilidad Urbana', 'ARQ045', 5, 'Optativa', 7, true),
 -- Educación Primaria
 ('Fundamentos de la Educación', 'EDU001', 5, 'Obligatoria', 8, false),
 ('Historia de la Educación', 'EDU002', 4, 'Obligatoria', 8, false),
@@ -418,7 +418,7 @@ INSERT INTO materias (nombre, codigo, creditos, tipo, plan_estudio_id, permite_s
 ('Seminario de Investigación Educativa', 'EDU042', 4, 'Optativa', 8, true),
 ('Taller de Evaluación', 'EDU043', 3, 'Optativa', 8, true),
 ('Comunicación Educativa', 'EDU044', 4, 'Optativa', 8, true),
-('Práctica Profesional en Educación', 'EDU045', 5, 'Optativa', 8, true)
+('Práctica Profesional en Educación', 'EDU045', 5, 'Optativa', 8, true),
 -- Comunicación Digital
 ('Teoría de la Comunicación', 'COM001', 5, 'Obligatoria', 9, false),
 ('Historia de la Comunicación', 'COM002', 4, 'Obligatoria', 9, false),
@@ -464,7 +464,7 @@ INSERT INTO materias (nombre, codigo, creditos, tipo, plan_estudio_id, permite_s
 ('Legislación en Medios', 'COM042', 4, 'Optativa', 9, true),
 ('Emprendimiento en Comunicación', 'COM043', 3, 'Optativa', 9, true),
 ('Proyecto Final de Comunicación', 'COM044', 4, 'Optativa', 9, true),
-('Práctica Profesional en Comunicación', 'COM045', 5, 'Optativa', 9, true)
+('Práctica Profesional en Comunicación', 'COM045', 5, 'Optativa', 9, true),
 -- Gestión Ambiental
 ('Introducción a la Gestión Ambiental', 'AMB001', 5, 'Obligatoria', 10, false),
 ('Ecología General', 'AMB002', 4, 'Obligatoria', 10, false),
@@ -554,7 +554,7 @@ INSERT INTO disponibilidad_docente (docente_id, dia, hora_inicio, hora_fin) VALU
 (1, 'viernes', '07:00', '14:00'),
 (1, 'viernes', '14:00', '19:00'),
 (1, 'sabado', '07:00', '14:00'),
-(1, 'sabado', '14:00', '19:00')
+(1, 'sabado', '14:00', '19:00'),
 -- Docente 2
 (2, 'lunes', '07:00', '14:00'),
 (2, 'lunes', '14:00', '19:00'),
@@ -567,7 +567,7 @@ INSERT INTO disponibilidad_docente (docente_id, dia, hora_inicio, hora_fin) VALU
 (2, 'viernes', '07:00', '14:00'),
 (2, 'viernes', '14:00', '19:00'),
 (2, 'sabado', '07:00', '14:00'),
-(2, 'sabado', '14:00', '19:00')
+(2, 'sabado', '14:00', '19:00'),
 -- Docente 3
 (3, 'lunes', '07:00', '14:00'),
 (3, 'lunes', '14:00', '19:00'),
@@ -580,7 +580,7 @@ INSERT INTO disponibilidad_docente (docente_id, dia, hora_inicio, hora_fin) VALU
 (3, 'viernes', '07:00', '14:00'),
 (3, 'viernes', '14:00', '19:00'),
 (3, 'sabado', '07:00', '14:00'),
-(3, 'sabado', '14:00', '19:00')
+(3, 'sabado', '14:00', '19:00'),
 -- Docente 4
 (4, 'lunes', '07:00', '14:00'),
 (4, 'lunes', '14:00', '19:00'),
@@ -593,7 +593,7 @@ INSERT INTO disponibilidad_docente (docente_id, dia, hora_inicio, hora_fin) VALU
 (4, 'viernes', '07:00', '14:00'),
 (4, 'viernes', '14:00', '19:00'),
 (4, 'sabado', '07:00', '14:00'),
-(4, 'sabado', '14:00', '19:00')
+(4, 'sabado', '14:00', '19:00'),
 -- Docente 5
 (5, 'lunes', '07:00', '14:00'),
 (5, 'lunes', '14:00', '19:00'),
@@ -606,7 +606,7 @@ INSERT INTO disponibilidad_docente (docente_id, dia, hora_inicio, hora_fin) VALU
 (5, 'viernes', '07:00', '14:00'),
 (5, 'viernes', '14:00', '19:00'),
 (5, 'sabado', '07:00', '14:00'),
-(5, 'sabado', '14:00', '19:00')
+(5, 'sabado', '14:00', '19:00'),
 -- Docente 6
 (6, 'lunes', '07:00', '14:00'),
 (6, 'lunes', '14:00', '19:00'),
@@ -619,7 +619,7 @@ INSERT INTO disponibilidad_docente (docente_id, dia, hora_inicio, hora_fin) VALU
 (6, 'viernes', '07:00', '14:00'),
 (6, 'viernes', '14:00', '19:00'),
 (6, 'sabado', '07:00', '14:00'),
-(6, 'sabado', '14:00', '19:00')
+(6, 'sabado', '14:00', '19:00'),
 -- Docente 7
 (7, 'lunes', '07:00', '14:00'),
 (7, 'lunes', '14:00', '19:00'),
@@ -632,7 +632,7 @@ INSERT INTO disponibilidad_docente (docente_id, dia, hora_inicio, hora_fin) VALU
 (7, 'viernes', '07:00', '14:00'),
 (7, 'viernes', '14:00', '19:00'),
 (7, 'sabado', '07:00', '14:00'),
-(7, 'sabado', '14:00', '19:00')
+(7, 'sabado', '14:00', '19:00'),
 -- Docente 8
 (8, 'lunes', '07:00', '14:00'),
 (8, 'lunes', '14:00', '19:00'),
@@ -645,7 +645,7 @@ INSERT INTO disponibilidad_docente (docente_id, dia, hora_inicio, hora_fin) VALU
 (8, 'viernes', '07:00', '14:00'),
 (8, 'viernes', '14:00', '19:00'),
 (8, 'sabado', '07:00', '14:00'),
-(8, 'sabado', '14:00', '19:00')
+(8, 'sabado', '14:00', '19:00'),
 -- Docente 9
 (9, 'lunes', '07:00', '14:00'),
 (9, 'lunes', '14:00', '19:00'),
@@ -658,7 +658,7 @@ INSERT INTO disponibilidad_docente (docente_id, dia, hora_inicio, hora_fin) VALU
 (9, 'viernes', '07:00', '14:00'),
 (9, 'viernes', '14:00', '19:00'),
 (9, 'sabado', '07:00', '14:00'),
-(9, 'sabado', '14:00', '19:00')
+(9, 'sabado', '14:00', '19:00'),
 -- Docente 10
 (10, 'lunes', '07:00', '14:00'),
 (10, 'lunes', '14:00', '19:00'),
@@ -671,7 +671,7 @@ INSERT INTO disponibilidad_docente (docente_id, dia, hora_inicio, hora_fin) VALU
 (10, 'viernes', '07:00', '14:00'),
 (10, 'viernes', '14:00', '19:00'),
 (10, 'sabado', '07:00', '14:00'),
-(10, 'sabado', '14:00', '19:00')
+(10, 'sabado', '14:00', '19:00'),
 -- Docente 11
 (11, 'lunes', '07:00', '14:00'),
 (11, 'lunes', '14:00', '19:00'),
@@ -684,7 +684,7 @@ INSERT INTO disponibilidad_docente (docente_id, dia, hora_inicio, hora_fin) VALU
 (11, 'viernes', '07:00', '14:00'),
 (11, 'viernes', '14:00', '19:00'),
 (11, 'sabado', '07:00', '14:00'),
-(11, 'sabado', '14:00', '19:00')
+(11, 'sabado', '14:00', '19:00'),
 -- Docente 12
 (12, 'lunes', '07:00', '14:00'),
 (12, 'lunes', '14:00', '19:00'),
@@ -709,7 +709,7 @@ INSERT INTO asignaciones_materia (docente_id, materia_id) VALUES
 (1, 9),
 (1, 10),
 (1, 13),
-(1, 14)
+(1, 14),
 -- Docente 2
 (2, 3),
 (2, 4),
@@ -718,7 +718,7 @@ INSERT INTO asignaciones_materia (docente_id, materia_id) VALUES
 (2, 11),
 (2, 12),
 (2, 15),
-(2, 16)
+(2, 16),
 -- Docente 3
 (3, 46),
 (3, 47),
@@ -727,7 +727,7 @@ INSERT INTO asignaciones_materia (docente_id, materia_id) VALUES
 (3, 50),
 (3, 51),
 (3, 52),
-(3, 53)
+(3, 53),
 -- Docente 4
 (4, 91),
 (4, 92),
@@ -736,7 +736,7 @@ INSERT INTO asignaciones_materia (docente_id, materia_id) VALUES
 (4, 95),
 (4, 96),
 (4, 97),
-(4, 98)
+(4, 98),
 -- Docente 5
 (5, 136),
 (5, 137),
@@ -745,7 +745,7 @@ INSERT INTO asignaciones_materia (docente_id, materia_id) VALUES
 (5, 140),
 (5, 141),
 (5, 142),
-(5, 143)
+(5, 143),
 -- Docente 6
 (6, 181),
 (6, 182),
@@ -754,7 +754,7 @@ INSERT INTO asignaciones_materia (docente_id, materia_id) VALUES
 (6, 185),
 (6, 186),
 (6, 187),
-(6, 188)
+(6, 188),
 -- Docente 7
 (7, 226),
 (7, 227),
@@ -763,7 +763,7 @@ INSERT INTO asignaciones_materia (docente_id, materia_id) VALUES
 (7, 230),
 (7, 231),
 (7, 232),
-(7, 233)
+(7, 233),
 -- Docente 8
 (8, 271),
 (8, 272),
@@ -772,7 +772,7 @@ INSERT INTO asignaciones_materia (docente_id, materia_id) VALUES
 (8, 275),
 (8, 276),
 (8, 277),
-(8, 278)
+(8, 278),
 -- Docente 9
 (9, 316),
 (9, 317),
@@ -781,7 +781,7 @@ INSERT INTO asignaciones_materia (docente_id, materia_id) VALUES
 (9, 320),
 (9, 321),
 (9, 322),
-(9, 323)
+(9, 323),
 -- Docente 10
 (10, 361),
 (10, 362),
@@ -790,7 +790,7 @@ INSERT INTO asignaciones_materia (docente_id, materia_id) VALUES
 (10, 365),
 (10, 366),
 (10, 367),
-(10, 368)
+(10, 368),
 -- Docente 11
 (11, 406),
 (11, 407),
@@ -799,7 +799,7 @@ INSERT INTO asignaciones_materia (docente_id, materia_id) VALUES
 (11, 410),
 (11, 411),
 (11, 412),
-(11, 413)
+(11, 413),
 -- Docente 12
 (12, 99),
 (12, 100),
@@ -816,47 +816,47 @@ INSERT INTO grupos (nombre, plan_estudio_id, num_estudiantes) VALUES
 ('SIS-1A', 1, 28),
 ('SIS-1B', 1, 25),
 ('SIS-2A', 1, 33),
-('SIS-2B', 1, 32)
+('SIS-2B', 1, 32),
 -- Psicología
 ('PSI-1A', 2, 32),
 ('PSI-1B', 2, 29),
 ('PSI-2A', 2, 28),
-('PSI-2B', 2, 27)
+('PSI-2B', 2, 27),
 -- Medicina General
 ('MED-1A', 3, 38),
 ('MED-1B', 3, 26),
 ('MED-2A', 3, 25),
-('MED-2B', 3, 27)
+('MED-2B', 3, 27),
 -- Física Aplicada
 ('FIS-1A', 4, 31),
 ('FIS-1B', 4, 32),
 ('FIS-2A', 4, 25),
-('FIS-2B', 4, 31)
+('FIS-2B', 4, 31),
 -- Filosofía
 ('FIL-1A', 5, 38),
 ('FIL-1B', 5, 32),
 ('FIL-2A', 5, 39),
-('FIL-2B', 5, 33)
+('FIL-2B', 5, 33),
 -- Economía Empresarial
 ('ECO-1A', 6, 25),
 ('ECO-1B', 6, 30),
 ('ECO-2A', 6, 38),
-('ECO-2B', 6, 35)
+('ECO-2B', 6, 35),
 -- Arquitectura Sustentable
 ('ARQ-1A', 7, 33),
 ('ARQ-1B', 7, 29),
 ('ARQ-2A', 7, 31),
-('ARQ-2B', 7, 35)
+('ARQ-2B', 7, 35),
 -- Educación Primaria
 ('EDU-1A', 8, 28),
 ('EDU-1B', 8, 27),
 ('EDU-2A', 8, 37),
-('EDU-2B', 8, 28)
+('EDU-2B', 8, 28),
 -- Comunicación Digital
 ('COM-1A', 9, 36),
 ('COM-1B', 9, 36),
 ('COM-2A', 9, 33),
-('COM-2B', 9, 26)
+('COM-2B', 9, 26),
 -- Gestión Ambiental
 ('AMB-1A', 10, 39),
 ('AMB-1B', 10, 28),
@@ -895,7 +895,7 @@ INSERT INTO clases_programadas (docente_id, materia_id, aula_id, grupo_id, dia, 
 (1, 5, 2, 1, 'sabado', '09:00', '11:00'),
 (1, 6, 5, 2, 'sabado', '11:00', '14:00'),
 (1, 9, 1, 1, 'sabado', '14:00', '16:00'),
-(1, 10, 2, 2, 'sabado', '16:00', '19:00')
+(1, 10, 2, 2, 'sabado', '16:00', '19:00'),
 -- Docente 2
 (2, 3, 1, 3, 'lunes', '07:00', '09:00'),
 (2, 4, 2, 4, 'lunes', '09:00', '11:00'),
@@ -926,7 +926,7 @@ INSERT INTO clases_programadas (docente_id, materia_id, aula_id, grupo_id, dia, 
 (2, 7, 2, 3, 'sabado', '09:00', '11:00'),
 (2, 8, 5, 4, 'sabado', '11:00', '14:00'),
 (2, 11, 1, 3, 'sabado', '14:00', '16:00'),
-(2, 12, 2, 4, 'sabado', '16:00', '19:00')
+(2, 12, 2, 4, 'sabado', '16:00', '19:00'),
 -- Docente 3
 (3, 46, 3, 5, 'lunes', '07:00', '09:00'),
 (3, 47, 6, 6, 'lunes', '09:00', '11:00'),
@@ -957,7 +957,7 @@ INSERT INTO clases_programadas (docente_id, materia_id, aula_id, grupo_id, dia, 
 (3, 48, 6, 5, 'sabado', '09:00', '11:00'),
 (3, 49, 3, 6, 'sabado', '11:00', '14:00'),
 (3, 50, 6, 5, 'sabado', '14:00', '16:00'),
-(3, 51, 3, 6, 'sabado', '16:00', '19:00')
+(3, 51, 3, 6, 'sabado', '16:00', '19:00'),
 -- Docente 4
 (4, 91, 4, 9, 'lunes', '07:00', '09:00'),
 (4, 92, 7, 10, 'lunes', '09:00', '11:00'),
@@ -988,7 +988,7 @@ INSERT INTO clases_programadas (docente_id, materia_id, aula_id, grupo_id, dia, 
 (4, 93, 7, 9, 'sabado', '09:00', '11:00'),
 (4, 94, 4, 10, 'sabado', '11:00', '14:00'),
 (4, 95, 7, 9, 'sabado', '14:00', '16:00'),
-(4, 96, 4, 10, 'sabado', '16:00', '19:00')
+(4, 96, 4, 10, 'sabado', '16:00', '19:00'),
 -- Docente 5
 (5, 136, 3, 13, 'lunes', '07:00', '09:00'),
 (5, 137, 4, 14, 'lunes', '09:00', '11:00'),
@@ -1019,7 +1019,7 @@ INSERT INTO clases_programadas (docente_id, materia_id, aula_id, grupo_id, dia, 
 (5, 138, 4, 13, 'sabado', '09:00', '11:00'),
 (5, 139, 3, 14, 'sabado', '11:00', '14:00'),
 (5, 140, 4, 13, 'sabado', '14:00', '16:00'),
-(5, 141, 3, 14, 'sabado', '16:00', '19:00')
+(5, 141, 3, 14, 'sabado', '16:00', '19:00'),
 -- Docente 6
 (6, 181, 9, 17, 'lunes', '07:00', '09:00'),
 (6, 182, 9, 18, 'lunes', '09:00', '11:00'),
@@ -1050,7 +1050,7 @@ INSERT INTO clases_programadas (docente_id, materia_id, aula_id, grupo_id, dia, 
 (6, 183, 9, 17, 'sabado', '09:00', '11:00'),
 (6, 184, 9, 18, 'sabado', '11:00', '14:00'),
 (6, 185, 9, 17, 'sabado', '14:00', '16:00'),
-(6, 186, 9, 18, 'sabado', '16:00', '19:00')
+(6, 186, 9, 18, 'sabado', '16:00', '19:00'),
 -- Docente 7
 (7, 226, 10, 21, 'lunes', '07:00', '09:00'),
 (7, 227, 4, 22, 'lunes', '09:00', '11:00'),
@@ -1081,7 +1081,7 @@ INSERT INTO clases_programadas (docente_id, materia_id, aula_id, grupo_id, dia, 
 (7, 228, 4, 21, 'sabado', '09:00', '11:00'),
 (7, 229, 10, 22, 'sabado', '11:00', '14:00'),
 (7, 230, 4, 21, 'sabado', '14:00', '16:00'),
-(7, 231, 10, 22, 'sabado', '16:00', '19:00')
+(7, 231, 10, 22, 'sabado', '16:00', '19:00'),
 -- Docente 8
 (8, 271, 8, 25, 'lunes', '07:00', '09:00'),
 (8, 272, 8, 26, 'lunes', '09:00', '11:00'),
@@ -1112,7 +1112,7 @@ INSERT INTO clases_programadas (docente_id, materia_id, aula_id, grupo_id, dia, 
 (8, 273, 8, 25, 'sabado', '09:00', '11:00'),
 (8, 274, 8, 26, 'sabado', '11:00', '14:00'),
 (8, 275, 8, 25, 'sabado', '14:00', '16:00'),
-(8, 276, 8, 26, 'sabado', '16:00', '19:00')
+(8, 276, 8, 26, 'sabado', '16:00', '19:00'),
 -- Docente 9
 (9, 316, 2, 29, 'lunes', '07:00', '09:00'),
 (9, 317, 1, 30, 'lunes', '09:00', '11:00'),
@@ -1143,7 +1143,7 @@ INSERT INTO clases_programadas (docente_id, materia_id, aula_id, grupo_id, dia, 
 (9, 318, 1, 29, 'sabado', '09:00', '11:00'),
 (9, 319, 2, 30, 'sabado', '11:00', '14:00'),
 (9, 320, 1, 29, 'sabado', '14:00', '16:00'),
-(9, 321, 2, 30, 'sabado', '16:00', '19:00')
+(9, 321, 2, 30, 'sabado', '16:00', '19:00'),
 -- Docente 10
 (10, 361, 10, 33, 'lunes', '07:00', '09:00'),
 (10, 362, 5, 34, 'lunes', '09:00', '11:00'),
@@ -1174,7 +1174,7 @@ INSERT INTO clases_programadas (docente_id, materia_id, aula_id, grupo_id, dia, 
 (10, 363, 5, 33, 'sabado', '09:00', '11:00'),
 (10, 364, 10, 34, 'sabado', '11:00', '14:00'),
 (10, 365, 5, 33, 'sabado', '14:00', '16:00'),
-(10, 366, 10, 34, 'sabado', '16:00', '19:00')
+(10, 366, 10, 34, 'sabado', '16:00', '19:00'),
 -- Docente 11
 (11, 406, 3, 37, 'lunes', '07:00', '09:00'),
 (11, 407, 9, 38, 'lunes', '09:00', '11:00'),
@@ -1205,7 +1205,7 @@ INSERT INTO clases_programadas (docente_id, materia_id, aula_id, grupo_id, dia, 
 (11, 408, 9, 37, 'sabado', '09:00', '11:00'),
 (11, 409, 3, 38, 'sabado', '11:00', '14:00'),
 (11, 410, 9, 37, 'sabado', '14:00', '16:00'),
-(11, 411, 3, 38, 'sabado', '16:00', '19:00')
+(11, 411, 3, 38, 'sabado', '16:00', '19:00'),
 -- Docente 12
 (12, 99, 4, 11, 'lunes', '07:00', '09:00'),
 (12, 100, 7, 12, 'lunes', '09:00', '11:00'),
